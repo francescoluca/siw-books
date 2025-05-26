@@ -27,6 +27,12 @@ public class User {
 	private Credentials credentials;
 	@OneToMany (mappedBy = "writer")
 	private List<Review> reviews;
+	@OneToMany
+	private List<Book> read;
+	@OneToMany
+	private List<Book> wantToRead;
+	@OneToMany
+	private List<Book> currentlyReading;
 	public String getName() {
 		return name;
 	}
@@ -56,5 +62,23 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public List<Book> getRead() {
+		return read;
+	}
+	public void setRead(List<Book> read) {
+		this.read = read;
+	}
+	public List<Book> getWantToRead() {
+		return wantToRead;
+	}
+	public void setWantToRead(List<Book> wantToRead) {
+		this.wantToRead = wantToRead;
+	}
+	public List<Book> getCurrentlyReading() {
+		return currentlyReading;
+	}
+	public void setCurrentlyReading(List<Book> currentlyReading) {
+		this.currentlyReading = currentlyReading;
 	}
 }

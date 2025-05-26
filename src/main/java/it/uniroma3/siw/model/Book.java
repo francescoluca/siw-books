@@ -20,6 +20,8 @@ public class Book {
 	private long id;
 	@NotBlank
 	private String title;
+	@NotBlank
+	private String isbnCode;
 	@NotNull
 	@Min(0)
 	@Max(2025)
@@ -68,5 +70,21 @@ public class Book {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
-	}	
+	}
+
+	public String getIsbnCode() {
+		return isbnCode;
+	}
+
+	public void setIsbnCode(String isbnCode) {
+		this.isbnCode = isbnCode;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 }
