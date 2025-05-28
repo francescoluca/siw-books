@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>
-		SiwBooks - Homepage
-	</title>
+  <head>
+    <title>Autore</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 
@@ -18,12 +15,11 @@
 			<a href="/login">Login</a>
 		</div>
 	</header>
-	<div>
-		<a href="/books">Elenco libri</a>
-	</div>
-	<div>
-		<a href="/authors">Elenco autori	</a>
-	</div>
-</body>
 
+    <h1>Dettagli autore</h1>
+    <div th:if="${author}">
+		<div th:text="${author.name}+ ' ' + ${author.surname}"></div>
+    </div>
+    <div th:unless="${author}">Non esiste</div>
+  </body>
 </html>

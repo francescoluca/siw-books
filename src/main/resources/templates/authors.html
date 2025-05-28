@@ -2,9 +2,7 @@
 <html>
 
 <head>
-	<title>
-		SiwBooks - Homepage
-	</title>
+	<title>Libri</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 </head>
 
@@ -18,12 +16,14 @@
 			<a href="/login">Login</a>
 		</div>
 	</header>
-	<div>
-		<a href="/books">Elenco libri</a>
-	</div>
-	<div>
-		<a href="/authors">Elenco autori	</a>
-	</div>
+	<h1>Libri</h1>
+	<div th:if="${authors==null || authors.isEmpty()}">Non ci sono autori nel sistema</div>
+	<ul>
+		<li th:each="author : ${authors}">
+			<a th:href="@{'/author' + '/' + ${author.id}}"
+				th:text="${author.name} + ' ' + ${author.surname}">Up! (2000)</a>
+		</li>
+	</ul>
 </body>
 
 </html>

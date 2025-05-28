@@ -82,5 +82,13 @@ public class Author {
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 }

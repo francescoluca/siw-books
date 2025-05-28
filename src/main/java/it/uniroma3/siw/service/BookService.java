@@ -26,4 +26,8 @@ public class BookService {
 	public Iterable<Book> findAll() {
 		return bookRepository.findAll();
 	}
+
+	public void save(Book book) {
+		this.bookRepository.save(book);
+	}
 }

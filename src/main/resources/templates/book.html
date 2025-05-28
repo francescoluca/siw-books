@@ -15,10 +15,10 @@
 			<a href="/login">Login</a>
 		</div>
 	</header>
-
     <h1>Dettagli Libro</h1>
     <div th:if="${book}">
-		<div th:text="'Titolo: ' + ${book.title}"></div>
+		<h1 th:text="${book.title} + ' (' + ${book.year} + ')'"></h1>
+		<div th:text="'Codice isbn: ' + ${book.isbnCode}"></div>
     </div>
     <div th:unless="${book}">Non esiste</div>
   </body>

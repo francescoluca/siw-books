@@ -40,13 +40,6 @@ public class Book {
 		this.title = title;
 	}
 
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 
 	public List<Author> getAuthors() {
 		return authors;
@@ -86,5 +79,13 @@ public class Book {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 }
