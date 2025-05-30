@@ -29,6 +29,10 @@ public class AuthorService {
 	public void save(Author author) {
 		authorRepository.save(author);
 	}
+
+	public Iterable<Author> findAuthorsNotInBook(Long bookId) {
+		return authorRepository.findAuthorsNotInBook(bookId);
+	}
 	
 	
 }

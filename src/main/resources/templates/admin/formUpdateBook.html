@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Aggiorna libro
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Aggiorna libro</h1>
+	<div th:if="${book}">
+		<div>
+			<span th:text="${book.title}">Up!</span>
+		</div>
+		<div>
+			<span>Autori: </span>
+			<div th:each="author: ${book.authors}">
+				<span th:text="${author.name} + ' ' + ${author.surname}"></span>
+			</div>
+			<a th:href="@{'/admin/updateAuthors/' + ${book.id}}">
+				<button type="button">Modifica</button>
+			</a>
+		</div>
+		<div th:unless="${book}">Libro non esistente</div>
+</body>
+
+</html>

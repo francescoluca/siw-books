@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Scelta autori</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	<h1 th:text="'Autori del libro: ' + ${book.title}"></h1>
+	<div th:if="${book.authors.isEmpty()}">Non ci sono autori per questo libro</div>
+	<ul>
+		<li th:each="author : ${book.authors}">
+			<span th:text="${author.name}+' '+${author.surname}"></span>
+			<a th:href="@{'/admin/removeAuthorFromBook/'+ ${author.id}+'/'+${book.id}}">Cancella</a>
+		</li>
+	</ul>
+	<div>
+		Autori che si possono aggiungere:
+		<ul>
+			<li th:each="author : ${authorsToAdd}">
+				<span th:text="${author.name}+' '+${author.surname}"></span>
+				<a th:href="@{'/admin/addAuthorToBook/'+ ${author.id}+'/'+${book.id}}">Aggiungi</a>
+			</li>
+		</ul>
+	<div>
+	<div>
+		<a th:href="@{'/admin/formUpdateBook/'+ ${book.id}}"><button type="button">Fine</button></a>
+	</div>
+</body>
+
+</html>

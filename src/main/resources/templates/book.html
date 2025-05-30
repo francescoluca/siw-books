@@ -19,6 +19,18 @@
     <div th:if="${book}">
 		<h1 th:text="${book.title} + ' (' + ${book.year} + ')'"></h1>
 		<div th:text="'Codice isbn: ' + ${book.isbnCode}"></div>
+	<div>
+        <strong>Autori:</strong>
+        <div th:if="${#lists.isEmpty(book.authors)}">
+          <em>Nessun autore associato</em>
+        </div>
+        <ul th:if="${!#lists.isEmpty(book.authors)}">
+          <li th:each="author : ${book.authors}"
+              th:text="${author.name} + ' ' + ${author.surname}">
+            Nome Autore
+          </li>
+        </ul>
+      </div>
     </div>
     <div th:unless="${book}">Non esiste</div>
   </body>
