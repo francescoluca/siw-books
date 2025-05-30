@@ -1,11 +1,13 @@
 package it.uniroma3.siw.repository;
 
+import java.time.LocalDate;
+
 import org.springframework.data.repository.CrudRepository;
 
 import it.uniroma3.siw.model.Author;
 
 public interface AuthorRepository extends CrudRepository<Author, Long>{
 
-	boolean existsByNameAndSurname(String name, String surname);
+	boolean existsByNameAndSurnameAndDayOfBirth(String name, String surname, LocalDate dayOfBirth);
 
 }

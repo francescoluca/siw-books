@@ -3,10 +3,14 @@ package it.uniroma3.siw.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.controller.validator.AuthorValidator;
+import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.service.AuthorService;
 
 @Controller
@@ -30,5 +34,26 @@ public class AuthorController {
 		return "author.html";
 	}
 		
+	@GetMapping("/admin/formNewAuthor")
+	public String formNewAuthor(Model model){
+		model.addAttribute("author",new Author());
+		return "admin/formNewAuthor.html";
+	}
+	@PostMapping("/admin/author")
+	public String newAuthor(@ModelAttribute("author") Author author,BindingResult bindingResult,Model model) {
+		this.authorValidator.validate(author, bindingResult);
+		if(!bindingResult.hasErrors()) {
+			this.authorService.save(author);
+			model.addAttribute("author",author);
+			return "redirect:/author/"+author.getId();
+		}else {
+			return "admin/formNewAuthor";
+		}
+	}
+	@GetMapping("/admin/manageAuthors")
+	public String manageAuthors(Model model) {
+		model.addAttribute("authors",this.authorService.findAll());
+		return "/admin/manageAuthors";
+	}
 }
 

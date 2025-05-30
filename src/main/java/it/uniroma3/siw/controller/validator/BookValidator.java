@@ -20,7 +20,7 @@ public class BookValidator implements Validator{
 		if (book.getTitle()!=null &&
 				book.getAuthors()!=null && 
 				bookService.existsByTitleAndAuthors(book.getTitle(),book.getAuthors())) {
-			errors.reject("books.duplicate");
+			errors.reject("book.duplicate");
 		}
 	}
 

@@ -18,7 +18,10 @@
 
     <h1>Dettagli autore</h1>
     <div th:if="${author}">
-		<div th:text="${author.name}+ ' ' + ${author.surname}"></div>
+		<div th:text="${author.name}+ ' ' + ${author.surname}"></div></div>
+	<div th:text="'Nascita: '+${#temporals.format(author.dayOfBirth, 'dd/MM/yyyy')}"></div>
+	<div th:if="${author.dayOfDeath}">
+		<div th:text="'Morte: '+${#temporals.format(author.dayOfDeath, 'dd/MM/yyyy')}"></div></div>
     </div>
     <div th:unless="${author}">Non esiste</div>
   </body>

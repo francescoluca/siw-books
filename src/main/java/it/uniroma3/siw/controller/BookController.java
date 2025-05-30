@@ -49,4 +49,9 @@ public class BookController {
 			return "admin/formNewBook";
 		}
 	}
+	@GetMapping("/admin/manageBooks")
+	public String manageBooks(Model model) {
+		model.addAttribute("books",this.bookService.findAll());
+		return "/admin/manageBooks";
+	}
 }

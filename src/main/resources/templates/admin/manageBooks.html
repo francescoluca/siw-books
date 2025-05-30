@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Modifica libri</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Libri</h1>
+	<div th:if="${books.isEmpty()}">Non ci sono libri nel sistema</div>
+	<ul>
+		<li th:each="book : ${books}">
+			<span th:text="${book.title}">Up! (2000)</span>
+			<a th:href="@{'/admin/formUpdateBook' + '/' + ${book.id}}">Aggiorna</a>
+		</li>
+	</ul>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Modifica autori</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Autori</h1>
+	<div th:if="${authors.isEmpty()}">Non ci sono autori nel sistema</div>
+	<ul>
+		<li th:each="author : ${authors}">
+			<span th:text="${author.name}+ ' ' + ${author.surname}">Up! (2000)</span>
+			<a th:href="@{'/admin/formUpdateAuthor' + '/' + ${author.id}}">Aggiorna</a>
+		</li>
+	</ul>
+</body>
+
+</html>

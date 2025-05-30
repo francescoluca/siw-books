@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Author {
@@ -19,7 +20,7 @@ public class Author {
 	private String name;
 	@NotBlank
 	private String surname;
-	@NotBlank
+	@NotNull
 	private LocalDate dayOfBirth;
 	private LocalDate dayOfDeath;
 	private String nationality;
