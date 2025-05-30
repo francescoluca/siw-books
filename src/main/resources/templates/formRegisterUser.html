@@ -9,16 +9,6 @@
 </head>
 
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
-
 	<h1>Registrazione nuovo utente</h1>
 	<form th:action="@{/register}" method="POST">
 		<div>
