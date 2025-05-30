@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -27,12 +28,12 @@ public class User {
 	private Credentials credentials;
 	@OneToMany (mappedBy = "writer")
 	private List<Review> reviews;
-	@OneToMany
-	private List<Book> read;
-	@OneToMany
-	private List<Book> wantToRead;
-	@OneToMany
-	private List<Book> currentlyReading;
+	@ManyToMany
+	private List<Book> readBooks;
+	@ManyToMany
+	private List<Book> wantToReadBooks;
+	@ManyToMany
+	private List<Book> currentlyReadingBooks;
 	public String getName() {
 		return name;
 	}
@@ -63,22 +64,22 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<Book> getRead() {
-		return read;
+	public List<Book> getReadBooks() {
+		return readBooks;
 	}
-	public void setRead(List<Book> read) {
-		this.read = read;
+	public void setReadBooks(List<Book> readBooks) {
+		this.readBooks = readBooks;
 	}
-	public List<Book> getWantToRead() {
-		return wantToRead;
+	public List<Book> getWantToReadBooks() {
+		return wantToReadBooks;
 	}
-	public void setWantToRead(List<Book> wantToRead) {
-		this.wantToRead = wantToRead;
+	public void setWantToReadBooks(List<Book> wantToReadBooks) {
+		this.wantToReadBooks = wantToReadBooks;
 	}
-	public List<Book> getCurrentlyReading() {
-		return currentlyReading;
+	public List<Book> getCurrentlyReadingBooks() {
+		return currentlyReadingBooks;
 	}
-	public void setCurrentlyReading(List<Book> currentlyReading) {
-		this.currentlyReading = currentlyReading;
+	public void setCurrentlyReadingBooks(List<Book> currentlyReadingBooks) {
+		this.currentlyReadingBooks = currentlyReadingBooks;
 	}
 }

@@ -11,7 +11,7 @@
 <body>
 	<header>
 		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
+			<a href="/profile"><span th:text="${userDetails.username}"></span></a>
 			<a href="/logout">Logout</a>
 		</div>
 		<div th:unless="${userDetails}">
@@ -22,7 +22,7 @@
 		<a href="/books">Elenco libri</a>
 	</div>
 	<div>
-		<a href="/authors">Elenco autori	</a>
+		<a href="/authors">Elenco autori</a>
 	</div>
 </body>
 
