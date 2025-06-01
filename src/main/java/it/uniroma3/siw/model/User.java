@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -16,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotBlank
 	private String name;
@@ -26,60 +25,64 @@ public class User {
 	private String email;
 	@OneToOne
 	private Credentials credentials;
-	@OneToMany (mappedBy = "writer")
+	@OneToMany(mappedBy = "writer")
 	private List<Review> reviews;
-	@ManyToMany
-	private List<Book> readBooks;
-	@ManyToMany
-	private List<Book> wantToReadBooks;
-	@ManyToMany
-	private List<Book> currentlyReadingBooks;
+	@OneToMany(mappedBy = "user")
+	private List<UserBook> userBooks;
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getSurname() {
 		return surname;
 	}
+
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+
 	public Credentials getCredentials() {
 		return credentials;
 	}
+
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
 	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}
+
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<Book> getReadBooks() {
-		return readBooks;
+
+	public List<UserBook> getUserBooks() {
+		return userBooks;
 	}
-	public void setReadBooks(List<Book> readBooks) {
-		this.readBooks = readBooks;
+
+	public void setUserBooks(List<UserBook> userBooks) {
+		this.userBooks = userBooks;
 	}
-	public List<Book> getWantToReadBooks() {
-		return wantToReadBooks;
+
+	public long getId() {
+		return id;
 	}
-	public void setWantToReadBooks(List<Book> wantToReadBooks) {
-		this.wantToReadBooks = wantToReadBooks;
-	}
-	public List<Book> getCurrentlyReadingBooks() {
-		return currentlyReadingBooks;
-	}
-	public void setCurrentlyReadingBooks(List<Book> currentlyReadingBooks) {
-		this.currentlyReadingBooks = currentlyReadingBooks;
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

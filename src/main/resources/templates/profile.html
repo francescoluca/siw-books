@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<title>Pagina profilo</title>
-	<link rel="stylesheet" href="/css/stile.css" />
-</head>
+	<head>
+		<title>Pagina profilo</title>
+		<link rel="stylesheet" href="/css/stile.css" />
+	</head>
 
-<body>
-	<header>
-		<div th:if="${userDetails}">
-			<a href="/logout">Logout</a>
+	<body>
+		<header>
+			<div th:if="${userDetails}">
+				<a href="/logout">Logout</a>
+			</div>
+			<div th:unless="${userDetails}">
+				<a href="/login">Login</a>
+			</div>
+		</header>
+		<div th:if="${user}">
+			<h1 th:text="${user.name} + ' ' + ${user.surname}"></h1>
 		</div>
-		<div th:unless="${userDetails}">
-			<a href="/login">Login</a>
+		<div>
+			<h2>Libri letti</h2>
+			<ul th:if="${!#lists.isEmpty(readBooks)}" th:each="userBook : ${readBooks}">
+				<li>
+					<a th:href="@{/book/{id}(id=${userBook.book.id})}"
+						th:text="${userBook.book.title} + ' (' + ${userBook.book.year} + ')'">
+						Titolo Libro
+					</a>
+				</li>
+			</ul>
+			<div class="empty-message" th:if="${#lists.isEmpty(readBooks)}">
+				Non hai ancora segnato libri come letti
+			</div>
 		</div>
-	</header>
-	<div th:if="${user}">
-		<h1 th:text="${user.name} + ' ' + ${user.surname}"></h1>
-	</div>
-	<div>
-       <h2>Libri letti</h2>
-       <ul th:if="${!#lists.isEmpty(user.readBooks)}"
-           th:each="book : ${user.readBooks}">
-         <li>
-           <a th:href="@{/book/{id}(id=${book.id})}"
-              th:text="${book.title} + ' (' + ${book.year} + ')'">
-             Titolo Libro
-           </a>
-         </li>
-       </ul>
-       <div class="empty-message"
-            th:if="${#lists.isEmpty(user.readBooks)}">
-         Non hai ancora segnato libri come letti
-       </div>
-     </div>
-</body>
+		<div>
+			<h2>Voglio leggere</h2>
+			<ul th:if="${!#lists.isEmpty(wantToReadBooks)}" th:each="userBook : ${wantToReadBooks}">
+				<li>
+					<a th:href="@{/book/{id}(id=${userBook.book.id})}"
+						th:text="${userBook.book.title} + ' (' + ${userBook.book.year} + ')'">
+						Titolo Libro
+					</a>
+				</li>
+			</ul>
+			<div class="empty-message" th:if="${#lists.isEmpty(wantToReadBooks)}">
+				Non hai ancora segnato libri come voglio leggere
+			</div>
+		</div>
+		<div>
+			<h2>Sto leggendo</h2>
+			<ul th:if="${!#lists.isEmpty(currentlyReadingBooks)}" th:each="userBook : ${currentlyReadingBooks}">
+				<li>
+					<a th:href="@{/book/{id}(id=${userBook.book.id})}"
+						th:text="${userBook.book.title} + ' (' + ${userBook.book.year} + ')'">
+						Titolo Libro
+					</a>
+				</li>
+			</ul>
+			<div class="empty-message" th:if="${#lists.isEmpty(currentlyReadingBooks)}">
+				Non stai leggendo nessun libro
+			</div>
+		</div>
+	</body>
 
 </html>
