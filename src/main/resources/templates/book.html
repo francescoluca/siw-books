@@ -8,19 +8,54 @@
 	</head>
 
 	<body>
-		<header>
-			<div th:if="${userDetails}">
-				<a href="/profile"><span th:text="${userDetails.username}"></span></a>
-				<a href="/logout">Logout</a>
-			</div>
-			<div th:unless="${userDetails}">
-				<a href="/login">Login</a>
+		<header class="p-3 mb-3 border-bottom">
+			<div class="container">
+				<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> <a
+						href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+						<svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+							<use xlink:href="#bootstrap"></use>
+						</svg> </a>
+					<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+						<li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
+						<li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
+						<li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
+						<li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+					</ul>
+					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"> <input type="search"
+							class="form-control" placeholder="Search..." aria-label="Search"> </form>
+					<div th:if="${userDetails}">
+						<div class="dropdown text-end"> <a href="/#"
+								class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+								data-bs-toggle="dropdown" aria-expanded="false"> <img src="/images/default-avatar.png"
+									alt="mdo" width="32" height="32" class="rounded-circle"> </a>
+							<ul class="dropdown-menu text-small">
+								<li><a class="dropdown-item" href="#">Impostazioni</a></li>
+								<li><a class="dropdown-item" href="/profile">Profilo</a></li>
+								<li>
+									<hr class="dropdown-divider">
+								</li>
+								<li><a class="dropdown-item" href="/logout">Sign out</a></li>
+							</ul>
+						</div>
+					</div>
+					<div th:unless="${userDetails}">
+						<a href="/login" class="btn btn-outline-primary me-2">Accedi</a>
+						<a href="/register" class="btn btn-primary">Registrati</a>
+					</div>
+				</div>
 			</div>
 		</header>
 		<h1>Dettagli Libro</h1>
 		<div th:if="${book}">
 			<h1 th:text="${book.title} + ' (' + ${book.year} + ')'"></h1>
-			<img th:src="@{'/book/' + ${book.id} + '/cover'}" alt="Cover" />
+			<div class="ratio" style="--bs-aspect-ratio: 150%; max-width: 200px; background-color: #f8f9fa;">
+				<div th:if="${book.coverImage}"><img th:src="@{'/book/' + ${book.id} + '/cover'}"
+						class="w-100 h-100 object-fit-contain" alt="Cover libro" />
+				</div>
+				<div th:unless="${book.coverImage}"><img src="/images/noBookCover.png"
+						class="w-100 h-100 object-fit-contain" alt="Cover libro" />
+				</div>
+			</div>
 			<div th:text="'Codice isbn: ' + ${book.isbnCode}"></div>
 			<div>
 				<strong>Autori:</strong>

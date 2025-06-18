@@ -1,36 +1,40 @@
 <!DOCTYPE html>
-<html lang="it"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8" />
-    <title>Registrazione conclusa</title>
-    <link rel="stylesheet" href="/css/stile.css" />
-</head>
-<body>
-    <header>
-        <div sec:authorize="isAuthenticated()">
-            <span sec:authentication="name"></span>
-            <a th:href="@{/logout}">Logout</a>
-        </div>
-        <div sec:authorize="!isAuthenticated()">
-            <a th:href="@{/login}">Login</a>
-        </div>
-    </header>
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <h1>Congratulazioni, ti sei registrato!</h1>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Registrazione conclusa</title>
+		<link rel="stylesheet" href="/css/stile.css" />
+	</head>
 
-    <div>
-        <strong>Nome:</strong>
-        <span th:text="${user.name}"></span>
-    </div>
-    <div>
-        <strong>Cognome:</strong>
-        <span th:text="${user.surname}"></span>
-    </div>
-    <div>
-        <strong>Email:</strong>
-        <span th:text="${user.email}"></span>
-    </div>
-</body>
+	<body>
+		<header>
+			<div sec:authorize="isAuthenticated()">
+				<span sec:authentication="name"></span>
+				<a th:href="@{/logout}">Logout</a>
+			</div>
+			<div sec:authorize="!isAuthenticated()">
+				<a th:href="@{/login}">Login</a>
+			</div>
+		</header>
+
+		<h1>Congratulazioni, ti sei registrato!</h1>
+
+		<div>
+			<strong>Nome:</strong>
+			<span th:text="${user.name}"></span>
+		</div>
+		<div>
+			<strong>Cognome:</strong>
+			<span th:text="${user.surname}"></span>
+		</div>
+		<div>
+			<strong>Email:</strong>
+			<span th:text="${user.email}"></span>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+			crossorigin="anonymous"></script>
+	</body>
+
 </html>

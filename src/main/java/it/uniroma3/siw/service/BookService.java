@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.repository.BookRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class BookService {
@@ -29,6 +30,7 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 
+	@Transactional
 	public void save(Book book, MultipartFile file) throws IOException {
 		if (!file.isEmpty()) {
 			book.setCoverImage(file.getBytes());
