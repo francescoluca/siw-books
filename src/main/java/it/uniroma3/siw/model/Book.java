@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
@@ -16,7 +17,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Book {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotBlank
 	private String title;
@@ -29,9 +30,11 @@ public class Book {
 	private List<String> images;
 	@ManyToMany
 	private List<Author> authors;
-	@OneToMany (mappedBy = "book")
+	@OneToMany(mappedBy = "book")
 	private List<Review> reviews;
-	
+	@Lob
+	private byte[] coverImage;
+
 	public String getTitle() {
 		return title;
 	}
@@ -39,7 +42,6 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public List<Author> getAuthors() {
 		return authors;
@@ -87,5 +89,13 @@ public class Book {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public byte[] getCoverImage() {
+		return coverImage;
+	}
+
+	public void setCoverImage(byte[] coverImage) {
+		this.coverImage = coverImage;
 	}
 }

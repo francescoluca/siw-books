@@ -8,18 +8,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Review {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotBlank
 	private String title;
 	@Min(1)
 	@Max(5)
-	private Integer rating;
+	private Integer stars;
 	@NotBlank
 	private String text;
 	@ManyToOne
@@ -33,14 +32,6 @@ public class Review {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public Integer getRating() {
-		return rating;
-	}
-
-	public void setRating(Integer rating) {
-		this.rating = rating;
 	}
 
 	public String getText() {
@@ -65,5 +56,13 @@ public class Review {
 
 	public void setWriter(User writer) {
 		this.writer = writer;
+	}
+
+	public Integer getStars() {
+		return stars;
+	}
+
+	public void setStars(Integer stars) {
+		this.stars = stars;
 	}
 }
