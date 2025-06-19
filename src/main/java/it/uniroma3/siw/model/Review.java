@@ -1,5 +1,7 @@
 package it.uniroma3.siw.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class Review {
 	private Book book;
 	@ManyToOne
 	private User writer;
+
+	private LocalDateTime createdAt;
 
 	public String getTitle() {
 		return title;
@@ -64,5 +68,13 @@ public class Review {
 
 	public void setStars(Integer stars) {
 		this.stars = stars;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 }

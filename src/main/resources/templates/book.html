@@ -81,6 +81,14 @@
 					</li>
 				</ul>
 			</div>
+			<h3>Recensioni</h3>
+			<div th:each="r : ${book.reviews}">
+				<p><strong th:text="${r.writer.name}">Autore</strong>
+					(<span th:text="${#temporals.format(r.createdAt,'dd/MM/yyyy HH:mm')}">data</span>)</p>
+				<p th:text="${r.stars}">Testo recensione</p>
+				<p th:text="${r.text}">Testo recensione</p>
+			</div>
+			<a th:href="@{/formNewReview/{id}(id=${book.id})}">Scrivi una recensione</a>
 		</div>
 		<div th:unless="${book}">Non esiste</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
