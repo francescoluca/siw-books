@@ -16,6 +16,7 @@
 			<li th:each="book : ${books}">
 				<span th:text="${book.title}">Up! (2000)</span>
 				<a th:href="@{'/admin/formUpdateBook' + '/' + ${book.id}}">Aggiorna</a>
+				<a th:href="@{'/admin/deleteBook' + '/' + ${book.id}}">Elimina</a>
 			</li>
 		</ul>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

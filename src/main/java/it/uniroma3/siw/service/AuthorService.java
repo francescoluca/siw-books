@@ -17,13 +17,13 @@ public class AuthorService {
 	public Iterable<Author> findAll() {
 		return authorRepository.findAll();
 	}
-	
+
 	public Author findById(Long id) {
 		return authorRepository.findById(id).get();
 	}
 
 	public boolean existsByNameAndSurnameAndDayOfBirth(String name, String surname, LocalDate dayOfBirth) {
-		return authorRepository.existsByNameAndSurnameAndDayOfBirth(name,surname,dayOfBirth);
+		return authorRepository.existsByNameAndSurnameAndDayOfBirth(name, surname, dayOfBirth);
 	}
 
 	public void save(Author author) {
@@ -33,6 +33,9 @@ public class AuthorService {
 	public Iterable<Author> findAuthorsNotInBook(Long bookId) {
 		return authorRepository.findAuthorsNotInBook(bookId);
 	}
-	
-	
+
+	public void delete(Author author) {
+		authorRepository.delete(author);
+	}
+
 }

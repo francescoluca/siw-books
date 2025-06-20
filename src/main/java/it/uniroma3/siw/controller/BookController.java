@@ -158,6 +158,14 @@ public class BookController {
 		return "admin/authorsToAdd.html";
 	}
 
+	@GetMapping("/admin/deleteBook/{bookId}")
+	public String deleteBook(@PathVariable("bookId") Long bookId, Model model) {
+		Book book = this.bookService.findById(bookId);
+		this.bookService.delete(book);
+		model.addAttribute("books", this.bookService.findAll());
+		return "admin/manageBooks";
+	}
+
 	private List<Author> authorsToAdd(Long bookId) {
 		List<Author> authorsToAdd = new ArrayList<>();
 

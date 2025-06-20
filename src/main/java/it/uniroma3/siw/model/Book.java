@@ -2,6 +2,7 @@ package it.uniroma3.siw.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,8 +31,9 @@ public class Book {
 	private List<String> images;
 	@ManyToMany
 	private List<Author> authors;
-	@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Review> reviews;
+
 	@Lob
 	private byte[] coverImage;
 

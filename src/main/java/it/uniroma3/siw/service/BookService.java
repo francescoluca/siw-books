@@ -41,4 +41,8 @@ public class BookService {
 	public byte[] getCover(Long id) {
 		return this.bookRepository.findById(id).map(Book::getCoverImage).orElse(null);
 	}
+
+	public void delete(Book book) {
+		bookRepository.delete(book);
+	}
 }
