@@ -57,11 +57,16 @@ public class BookController {
 	@GetMapping("/book/{id}")
 	public String getBook(@PathVariable("id") Long bookId, Model model,
 			@AuthenticationPrincipal UserDetails userDetails) {
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		User currentUser = userService.getUser(credentials.getId());
-		model.addAttribute("userReview",
-				reviewService.findByBookIdAndWriterId(bookId, currentUser.getId()).orElse(null));
-		model.addAttribute("otherReviews", reviewService.findByBookIdAndWriterIdNot(bookId, currentUser.getId()));
+		if (userDetails != null) {
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			User currentUser = userService.getUser(credentials.getId());
+			model.addAttribute("userReview",
+					reviewService.findByBookIdAndWriterId(bookId, currentUser.getId()).orElse(null));
+			model.addAttribute("otherReviews", reviewService.findByBookIdAndWriterIdNot(bookId, currentUser.getId()));
+		} else {
+			model.addAttribute("userReview", null);
+			model.addAttribute("otherReviews", reviewService.findByBookId(bookId));
+		}
 		model.addAttribute("book", this.bookService.findById(bookId));
 		return "book.html";
 	}
