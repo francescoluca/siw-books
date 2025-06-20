@@ -82,13 +82,28 @@
 				</ul>
 			</div>
 			<h3>Recensioni</h3>
-			<div th:each="r : ${book.reviews}">
+			<div th:if="${userReview}">
+				<h5>La tua recensione</h5>
+				<p>
+					<strong th:text="${userReview.writer.name}">Autore</strong>
+					(<span th:text="${#temporals.format(userReview.createdAt,'dd/MM/yyyy HH:mm')}">data</span>)
+				</p>
+				<p th:text="'Valutazione: '+${userReview.stars}+'/5'">Valutazione</p>
+				<p th:text="${userReview.text}">Testo recensione</p>
+				<a class="btn btn-sm btn-outline-primary mt-1"
+					th:href="@{/formUpdateReview/{bookId}/{reviewId}(bookId=${book.id}, reviewId=${userReview.id})}">
+					Modifica recensione
+				</a>
+			</div>
+			<div th:unless="${userReview}">
+				<a th:href="@{/formNewReview/{id}(id=${book.id})}">Scrivi una recensione</a>
+			</div>
+			<div th:each="r : ${otherReviews}">
 				<p><strong th:text="${r.writer.name}">Autore</strong>
 					(<span th:text="${#temporals.format(r.createdAt,'dd/MM/yyyy HH:mm')}">data</span>)</p>
-				<p th:text="${r.stars}">Testo recensione</p>
+				<p th:text="'Valutazione: '+${r.stars}+'/5'">Valutazione</p>
 				<p th:text="${r.text}">Testo recensione</p>
 			</div>
-			<a th:href="@{/formNewReview/{id}(id=${book.id})}">Scrivi una recensione</a>
 		</div>
 		<div th:unless="${book}">Non esiste</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

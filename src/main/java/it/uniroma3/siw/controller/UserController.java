@@ -65,7 +65,7 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "/book";
+		return "redirect:/book/" + bookId;
 	}
 
 	@GetMapping("/wantToReadBook/{bookId}")
@@ -89,7 +89,7 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "/book";
+		return "redirect:/book/" + bookId;
 	}
 
 	@GetMapping("/currentlyReadingBook/{bookId}")
@@ -113,6 +113,6 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "/book";
+		return "redirect:/book/" + bookId;
 	}
 }

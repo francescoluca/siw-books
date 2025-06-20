@@ -39,6 +39,26 @@ public class ReviewController {
 		return "formNewReview.html";
 	}
 
+	@GetMapping("/formUpdateReview/{bookId}/{reviewId}")
+	public String formUpdateReview(@PathVariable Long bookId, @PathVariable Long reviewId, Model model) {
+		Review review = reviewService.finById(reviewId);
+		Book book = bookService.findById(bookId);
+		model.addAttribute("book", book);
+		model.addAttribute("review", review);
+		return "formUpdateReview.html";
+	}
+
+	@PostMapping("/updateReview/{bookId}/{reviewId}")
+	public String updateReview(@PathVariable Long bookId, @PathVariable Long reviewId,
+			@ModelAttribute("review") Review updatedReview) {
+		Review review = reviewService.finById(reviewId);
+		review.setTitle(updatedReview.getTitle());
+		review.setText(updatedReview.getText());
+		review.setStars(updatedReview.getStars());
+		reviewService.save(review);
+		return "redirect:/book/" + bookId;
+	}
+
 	@PostMapping("/saveReview/{bookId}")
 	public String saveReview(@PathVariable Long bookId, @ModelAttribute("review") Review review,
 			@AuthenticationPrincipal UserDetails userDetails) {

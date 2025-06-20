@@ -9,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +25,13 @@ import org.springframework.web.server.ResponseStatusException;
 import it.uniroma3.siw.controller.validator.BookValidator;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
+import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.UserService;
 
 @Controller
 public class BookController {
@@ -38,9 +45,24 @@ public class BookController {
 	@Autowired
 	private BookValidator bookValidator;
 
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CredentialsService credentialsService;
+
+	@Autowired
+	private ReviewService reviewService;
+
 	@GetMapping("/book/{id}")
-	public String getBook(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("book", this.bookService.findById(id));
+	public String getBook(@PathVariable("id") Long bookId, Model model,
+			@AuthenticationPrincipal UserDetails userDetails) {
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		User currentUser = userService.getUser(credentials.getId());
+		model.addAttribute("userReview",
+				reviewService.findByBookIdAndWriterId(bookId, currentUser.getId()).orElse(null));
+		model.addAttribute("otherReviews", reviewService.findByBookIdAndWriterIdNot(bookId, currentUser.getId()));
+		model.addAttribute("book", this.bookService.findById(bookId));
 		return "book.html";
 	}
 
