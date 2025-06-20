@@ -3,6 +3,7 @@ package it.uniroma3.siw.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,10 +28,12 @@ import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.model.UserBook;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.UserBookService;
 import it.uniroma3.siw.service.UserService;
 
 @Controller
@@ -54,6 +57,9 @@ public class BookController {
 	@Autowired
 	private ReviewService reviewService;
 
+	@Autowired
+	private UserBookService userBookService;
+
 	@GetMapping("/book/{id}")
 	public String getBook(@PathVariable("id") Long bookId, Model model,
 			@AuthenticationPrincipal UserDetails userDetails) {
@@ -63,6 +69,8 @@ public class BookController {
 			model.addAttribute("userReview",
 					reviewService.findByBookIdAndWriterId(bookId, currentUser.getId()).orElse(null));
 			model.addAttribute("otherReviews", reviewService.findByBookIdAndWriterIdNot(bookId, currentUser.getId()));
+			Optional<UserBook> userBookOpt = userBookService.findByUserAndBookId(currentUser, bookId);
+			model.addAttribute("userBook", userBookOpt.orElse(null));
 		} else {
 			model.addAttribute("userReview", null);
 			model.addAttribute("otherReviews", reviewService.findByBookId(bookId));

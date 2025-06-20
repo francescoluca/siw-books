@@ -19,7 +19,7 @@ public class BookService {
 	private BookRepository bookRepository;
 
 	public boolean existsByTitleAndAuthors(String title, List<Author> authors) {
-		return bookRepository.existsByTitleAndAuthors(title, authors);
+		return bookRepository.existsByTitleAndAnyAuthor(title, authors);
 	}
 
 	public Book findById(Long id) {

@@ -31,6 +31,19 @@
 				<span th:if="${#fields.hasErrors('isbnCode')}" th:errors="*{isbnCode}"></span>
 			</div>
 			<div>
+				<label>Autori:</label>
+				<div
+					style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+					<div th:each="author : ${allAuthors}" class="form-check">
+						<input class="form-check-input" type="checkbox" th:id="'author-' + ${author.id}"
+							th:name="authors" th:value="${author.id}" th:field="*{authors}" />
+						<label class="form-check-label" th:for="'author-' + ${author.id}"
+							th:text="${author.name}+' '+${author.surname}"></label>
+					</div>
+				</div>
+				<span th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"></span>
+			</div>
+			<div>
 				<label>Copertina:</label>
 				<input type="file" name="cover" accept="image/*" />
 			</div>

@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.model.UserBook;
 import it.uniroma3.siw.repository.UserBookRepository;
@@ -16,8 +15,8 @@ public class UserBookService {
 	@Autowired
 	private UserBookRepository userBookRepository;
 
-	public Optional<UserBook> findByUserAndBook(User currentUser, Book book) {
-		return userBookRepository.findByUserAndBook(currentUser, book);
+	public Optional<UserBook> findByUserAndBookId(User currentUser, Long bookId) {
+		return userBookRepository.findByUserAndBookId(currentUser, bookId);
 	}
 
 	public void save(UserBook userBook) {

@@ -51,7 +51,7 @@ public class UserController {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
-		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBook(currentUser, book);
+		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBookId(currentUser, bookId);
 		UserBook userBook;
 		if (optionalUserBook.isPresent()) {
 			userBook = optionalUserBook.get();
@@ -75,7 +75,7 @@ public class UserController {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
-		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBook(currentUser, book);
+		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBookId(currentUser, bookId);
 		UserBook userBook;
 		if (optionalUserBook.isPresent()) {
 			userBook = optionalUserBook.get();
@@ -99,7 +99,7 @@ public class UserController {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
-		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBook(currentUser, book);
+		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBookId(currentUser, bookId);
 		UserBook userBook;
 		if (optionalUserBook.isPresent()) {
 			userBook = optionalUserBook.get();

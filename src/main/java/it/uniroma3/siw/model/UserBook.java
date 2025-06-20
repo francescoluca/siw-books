@@ -10,22 +10,32 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class UserBook {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @ManyToOne
-    private User user;
+	@ManyToOne
+	private User user;
 
-    @ManyToOne
-    private Book book;
+	@ManyToOne
+	private Book book;
 
-    @Enumerated(EnumType.STRING)
-    private ReadingStatus status;
+	@Enumerated(EnumType.STRING)
+	private ReadingStatus status;
 
-    public enum ReadingStatus {
-        READ, WANT_TO_READ, CURRENTLY_READING
-    }
+	public enum ReadingStatus {
+		READ("Letto"), WANT_TO_READ("Voglio leggere"), CURRENTLY_READING("Sto leggendo");
+
+		private final String label;
+
+		ReadingStatus(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+	}
 
 	public Long getId() {
 		return id;

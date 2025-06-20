@@ -32,10 +32,16 @@
 					</li>
 				</ul>
 			</div>
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-					aria-expanded="false">
-					Opzioni lettura
+			<div class="btn-group">
+				<button class="btn btn-secondary btn-lg" type="button">
+					<div th:if="${userBook}">
+						<p th:text="${userBook.status.label}">Reading Status</p>
+					</div>
+					<div th:unless="${userBook}">Opzioni lettura</div>
+				</button>
+				<button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split"
+					data-bs-toggle="dropdown" aria-expanded="false">
+					<span class="visually-hidden">Toggle Dropdown</span>
 				</button>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" th:href="@{/readBook/{id}(id=${book.id})}">Letto</a></li>
