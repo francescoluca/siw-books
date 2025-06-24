@@ -64,6 +64,10 @@
 					th:href="@{/formUpdateReview/{bookId}/{reviewId}(bookId=${book.id}, reviewId=${userReview.id})}">
 					Modifica recensione
 				</a>
+				<a class="btn btn-sm btn-outline-primary mt-1"
+					th:href="@{/deleteReview/{bookId}/{reviewId}(bookId=${book.id}, reviewId=${userReview.id})}">
+					Elimina recensione
+				</a>
 			</div>
 			<div th:unless="${userReview}">
 				<a th:href="@{/formNewReview/{id}(id=${book.id})}">Scrivi una recensione</a>

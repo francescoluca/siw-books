@@ -15,17 +15,17 @@
 		<h2>Scrivi una recensione per: <span th:text="${book.title}"></span></h2>
 		<form th:action="@{'/saveReview/' + ${book.id}}" method="post" th:object="${review}">
 			<div class="form-floating mb-3">
-				<input type="text" th:field="*{title}" class="form-control" placeholder="Titolo della recensione" />
+				<input type="text" required th:field="*{title}" class="form-control" placeholder="Titolo della recensione" />
 				<label for="title">Titolo</label>
 			</div>
 			<div class="form-floating mb-3">
-				<textarea th:field="*{text}" class="form-control" placeholder="Scrivi la tua recensione"
+				<textarea required th:field="*{text}" class="form-control" placeholder="Scrivi la tua recensione"
 					style="height: 100px"></textarea>
 				<label for="text">Testo della recensione</label>
 			</div>
 			<div class="mb-3">
 				<label for="stars" class="form-label">Voto</label>
-				<select th:field="*{stars}" class="form-select">
+				<select required th:field="*{stars}" class="form-select">
 					<option value="">Seleziona una valutazione</option>
 					<option th:value="1">1</option>
 					<option th:value="2">2</option>

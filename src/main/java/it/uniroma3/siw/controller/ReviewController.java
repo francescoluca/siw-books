@@ -70,4 +70,11 @@ public class ReviewController {
 		reviewService.save(review);
 		return "redirect:/book/" + bookId;
 	}
+
+	@GetMapping("deleteReview/{bookId}/{reviewId}")
+	public String deleteReview(@PathVariable Long bookId, @PathVariable Long reviewId) {
+		this.reviewService.delete(reviewService.finById(reviewId));
+		return "redirect:/book/" + bookId;
+	}
+
 }
