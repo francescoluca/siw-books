@@ -8,8 +8,7 @@
 	</head>
 
 	<body>
-		<div th:replace="fragments/header :: body"></div>
-
+		<div th:replace="~{fragments/header :: body}"></div>
 
 		<h1>Autori</h1>
 		<div th:if="${authors.isEmpty()}">Non ci sono autori nel sistema</div>

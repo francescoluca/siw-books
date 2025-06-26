@@ -125,7 +125,21 @@ public class BookController {
 	@GetMapping("/admin/formUpdateBook/{id}")
 	public String formUpdateBook(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("book", this.bookService.findById(id));
+		model.addAttribute("allAuthors", this.authorService.findAll());
 		return "/admin/formUpdateBook";
+	}
+
+	@PostMapping("/admin/updateBook/{id}")
+	public String updateBook(@PathVariable("id") Long id, Model model, @ModelAttribute("book") Book updatedBook,
+			@RequestParam("cover") MultipartFile cover) throws IOException {
+		Book book = bookService.findById(id);
+		book.setAuthors(updatedBook.getAuthors());
+		book.setCoverImage(updatedBook.getCoverImage());
+		book.setIsbnCode(updatedBook.getIsbnCode());
+		book.setTitle(updatedBook.getTitle());
+		book.setYear(updatedBook.getYear());
+		this.bookService.save(book, cover);
+		return "redirect:/book/" + book.getId();
 	}
 
 	@GetMapping("/admin/updateAuthors/{id}")

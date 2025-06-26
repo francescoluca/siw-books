@@ -3,6 +3,8 @@ package it.uniroma3.siw.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,18 +16,20 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Author {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotBlank
 	private String name;
 	@NotBlank
 	private String surname;
 	@NotNull
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dayOfBirth;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dayOfDeath;
 	private String nationality;
 	private String photo;
-	@ManyToMany (mappedBy = "authors")
+	@ManyToMany(mappedBy = "authors")
 	private List<Book> books;
 
 	public String getName() {
@@ -91,5 +95,5 @@ public class Author {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 }

@@ -59,9 +59,26 @@ public class AuthorController {
 	}
 
 	@GetMapping("/admin/formUpdateAuthor/{id}")
-	public String formUpdateBook(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("author", this.authorService.findById(id));
+	public String formUpdateAuthor(@PathVariable("id") Long id, Model model) {
+		Author author = this.authorService.findById(id);
+		model.addAttribute("birthDateString", author.getDayOfBirth() != null ? author.getDayOfBirth().toString() : "");
+		model.addAttribute("deathDateString", author.getDayOfDeath() != null ? author.getDayOfDeath().toString() : "");
+		model.addAttribute("author", author);
 		return "/admin/formUpdateAuthor";
+	}
+
+	@PostMapping("/admin/updateAuthor/{id}")
+	public String updateAuthor(@PathVariable("id") Long id, Model model,
+			@ModelAttribute("author") Author updatedAuthor) {
+		Author author = authorService.findById(id);
+		author.setName(updatedAuthor.getName());
+		author.setSurname(updatedAuthor.getSurname());
+		author.setDayOfBirth(updatedAuthor.getDayOfBirth());
+		author.setDayOfDeath(updatedAuthor.getDayOfDeath());
+		author.setNationality(updatedAuthor.getNationality());
+		author.setPhoto(updatedAuthor.getPhoto());
+		authorService.save(author);
+		return "redirect:/author/" + id;
 	}
 
 	@GetMapping("/admin/deleteAuthor/{authorId}")

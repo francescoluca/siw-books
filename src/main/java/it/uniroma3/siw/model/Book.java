@@ -28,7 +28,6 @@ public class Book {
 	@Min(0)
 	@Max(2025)
 	private Integer year;
-	private List<String> images;
 	@ManyToMany
 	private List<Author> authors;
 	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -51,14 +50,6 @@ public class Book {
 
 	public void setAuthors(List<Author> autors) {
 		this.authors = autors;
-	}
-
-	public List<String> getImages() {
-		return images;
-	}
-
-	public void setImages(List<String> images) {
-		this.images = images;
 	}
 
 	public List<Review> getReviews() {
