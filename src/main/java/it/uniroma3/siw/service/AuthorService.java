@@ -1,12 +1,15 @@
 package it.uniroma3.siw.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.repository.AuthorRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthorService {
@@ -26,8 +29,12 @@ public class AuthorService {
 		return authorRepository.existsByNameAndSurnameAndDayOfBirth(name, surname, dayOfBirth);
 	}
 
-	public void save(Author author) {
-		authorRepository.save(author);
+	@Transactional
+	public void save(Author author, MultipartFile file) throws IOException {
+		if (!file.isEmpty()) {
+			author.setPhoto(file.getBytes());
+		}
+		this.authorRepository.save(author);
 	}
 
 	public Iterable<Author> findAuthorsNotInBook(Long bookId) {
@@ -36,6 +43,10 @@ public class AuthorService {
 
 	public void delete(Author author) {
 		authorRepository.delete(author);
+	}
+
+	public byte[] getPhoto(Long id) {
+		return this.authorRepository.findById(id).map(Author::getPhoto).orElse(null);
 	}
 
 }

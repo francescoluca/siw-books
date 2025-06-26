@@ -8,17 +8,23 @@
 	</head>
 
 	<body>
-		<div th:replace="fragments/header :: body"></div>
-
+		<div th:replace="~{fragments/header :: body}"></div>
 
 		<h1>Dettagli autore</h1>
 		<div th:if="${author}">
 			<div th:text="${author.name}+ ' ' + ${author.surname}"></div>
-		</div>
-		<div th:text="'Nascita: '+${#temporals.format(author.dayOfBirth, 'dd/MM/yyyy')}"></div>
-		<div th:if="${author.dayOfDeath}">
-			<div th:text="'Morte: '+${#temporals.format(author.dayOfDeath, 'dd/MM/yyyy')}"></div>
-		</div>
+			<div class="ratio" style="--bs-aspect-ratio: 150%; max-width: 200px; background-color: #f8f9fa;">
+				<div th:if="${author.photo}"><img th:src="@{'/author/' + ${author.id} + '/photo'}"
+						class="w-100 h-100 object-fit-contain" alt="Foto autore" />
+				</div>
+				<div th:unless="${author.photo}"><img src="/images/noAuthorPhoto.png"
+						class="w-100 h-100 object-fit-contain" alt="Foto autore" />
+				</div>
+			</div>
+			<div th:text="'Nascita: '+${#temporals.format(author.dayOfBirth, 'dd/MM/yyyy')}"></div>
+			<div th:if="${author.dayOfDeath}">
+				<div th:text="'Morte: '+${#temporals.format(author.dayOfDeath, 'dd/MM/yyyy')}"></div>
+			</div>
 		</div>
 		<div th:unless="${author}">Non esiste</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

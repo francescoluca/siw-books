@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +29,8 @@ public class Author {
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDate dayOfDeath;
 	private String nationality;
-	private String photo;
+	@Lob
+	private byte[] photo;
 	@ManyToMany(mappedBy = "authors")
 	private List<Book> books;
 
@@ -72,14 +74,6 @@ public class Author {
 		this.nationality = nationality;
 	}
 
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
 	public List<Book> getBooks() {
 		return books;
 	}
@@ -94,6 +88,14 @@ public class Author {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 
 }
