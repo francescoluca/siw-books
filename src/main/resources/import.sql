@@ -1,5 +1,5 @@
-insert into users(id, name, surname, email) values(1, 'paolo', 'paolo', 'paolo@gmail.com');
-insert into credentials(id, password, role, username, user_id) values(1, '$2a$10$F605H0XOC06ODyI.oQnCzeMWpWRPNOH2DM2Lmf.ZSAkNrTG6Kqa3q', 'ADMIN', 'paolo',1);
+insert into users(id, name, surname, email) values(999, 'paolo', 'paolo', 'paolo@gmail.com');
+insert into credentials(id, password, role, username, user_id) values(999, '$2a$10$F605H0XOC06ODyI.oQnCzeMWpWRPNOH2DM2Lmf.ZSAkNrTG6Kqa3q', 'ADMIN', 'paolo',999);
 
 -- Autori
 INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1000, 'F. Scott',    'Fitzgerald',    '1896-09-24', '1940-12-21', 'USA');
