@@ -75,13 +75,27 @@ public class BookController {
 			model.addAttribute("userReview", null);
 			model.addAttribute("otherReviews", reviewService.findByBookId(bookId));
 		}
-		model.addAttribute("book", this.bookService.findById(bookId));
+		Book book = this.bookService.findById(bookId);
+		Double avg = bookService.findAverageRatingForBook(book);
+		if (avg == null) {
+			avg = 0.0;
+		}
+		book.setAvgRating(avg);
+		model.addAttribute("book", book);
 		return "book.html";
 	}
 
 	@GetMapping("/books")
 	public String getBooks(Model model) {
-		model.addAttribute("books", this.bookService.findAll());
+		Iterable<Book> books = this.bookService.findAll();
+		for (Book book : books) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			if (avg == null) {
+				avg = 0.0;
+			}
+			book.setAvgRating(avg);
+		}
+		model.addAttribute("books", books);
 		return "books.html";
 	}
 

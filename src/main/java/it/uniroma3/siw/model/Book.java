@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,10 +29,14 @@ public class Book {
 	@Min(0)
 	@Max(2025)
 	private Integer year;
+	@NotNull
+	private Integer pages;
 	@ManyToMany
 	private List<Author> authors;
 	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Review> reviews;
+	@Transient
+	private Double avgRating;
 
 	@Lob
 	private byte[] coverImage;
@@ -90,5 +95,21 @@ public class Book {
 
 	public void setCoverImage(byte[] coverImage) {
 		this.coverImage = coverImage;
+	}
+
+	public Integer getPages() {
+		return pages;
+	}
+
+	public void setPages(Integer pages) {
+		this.pages = pages;
+	}
+
+	public Double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(Double avgRating) {
+		this.avgRating = avgRating;
 	}
 }

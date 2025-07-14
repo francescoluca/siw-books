@@ -19,7 +19,7 @@ public class BookService {
 	private BookRepository bookRepository;
 
 	public boolean existsByTitleAndAuthors(String title, List<Author> authors) {
-		return bookRepository.existsByTitleAndAnyAuthor(title, authors);
+		return bookRepository.existsByTitleAndAnyAuthors(title, authors);
 	}
 
 	public Book findById(Long id) {
@@ -44,5 +44,9 @@ public class BookService {
 
 	public void delete(Book book) {
 		bookRepository.delete(book);
+	}
+
+	public Double findAverageRatingForBook(Book book) {
+		return this.bookRepository.findAverageRatingForBook(book);
 	}
 }

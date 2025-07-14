@@ -43,6 +43,11 @@
 				<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
 			</div>
 			<div>
+				<label>Numero di pagine:</label> <span><input required type="text"
+						th:field="${book.pages}" /></span>
+				<span th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}"></span>
+			</div>
+			<div>
 				<label>Codice isbn:</label> <span><input required type="text" th:field="${book.isbnCode}" /></span>
 				<span th:if="${#fields.hasErrors('isbnCode')}" th:errors="*{isbnCode}"></span>
 			</div>

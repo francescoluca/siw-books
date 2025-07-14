@@ -25,22 +25,130 @@
 
 
 	<body>
-		<div th:replace="~{fragments/header :: body}"></div>
 
-		<h1>Libri</h1>
-		<div th:if="${books==null || books.isEmpty()}">Non ci sono libri nel sistema</div>
-		<ul>
-			<li th:each="book : ${books}">
-				<a th:href="@{'/book' + '/' + ${book.id}}" th:text="${book.title}">Up! (2000)</a>
-				<span> -
-					<span th:each="author, iterStat : ${book.authors}">
-						<a th:href="@{'/author/' + ${author.id}}"
-							th:text="${author.name} + ' ' + ${author.surname}">Nome Autore</a>
-						<span th:if="${!iterStat.last}">, </span>
-					</span>
-				</span>
-			</li>
-		</ul>
+		<div th:replace="~{fragments/header :: body}"></div>
+		<div class="list-group">
+			<div class="container">
+				<h1>Libri</h1>
+				<div th:if="${books==null || books.isEmpty()}">Non ci sono libri nel sistema</div>
+				<ul class="list-unstyled">
+					<li th:each="book : ${books}">
+						<div class="list-group">
+							<div class="list-group-item search-item border-0 border-bottom py-3"
+								onclick="window.location.href='book-detail.html'">
+								<div class="row align-items-center">
+									<div class="ratio"
+										style="--bs-aspect-ratio: 150%; max-width: 200px; background-color: #f8f9fa;">
+										<div th:if="${book.coverImage}"><img
+												th:src="@{'/book/' + ${book.id} + '/cover'}"
+												class="w-100 h-100 object-fit-contain" alt="Cover libro" />
+										</div>
+										<div th:unless="${book.coverImage}"><img src="/images/noBookCover.png"
+												class="w-100 h-100 object-fit-contain" alt="Cover libro" />
+										</div>
+									</div>
+									<div class="col">
+										<div class="row">
+											<div class="col-md-8">
+												<h5 class="mb-1">
+													<a th:href="@{'/book' + '/' + ${book.id}}"
+														th:text="${book.title}"></a>
+												</h5>
+												<p class="mb-1">
+													<small class="text-muted">Di </small>
+													<span th:each="author, iterStat : ${book.authors}">
+														<a th:href="@{'/author/' + ${author.id}}"
+															th:text="${author.name} + ' ' + ${author.surname}">Nome
+															Autore</a>
+														<span th:if="${!iterStat.last}">, </span>
+													</span>
+												</p>
+												<div class="mb-2">
+													<span class="rating-stars">
+														<i class="fas fa-star"></i>
+														<i class="fas fa-star"></i>
+														<i class="fas fa-star"></i>
+														<i class="fas fa-star"></i>
+														<i class="fas fa-star-half-alt"></i>
+													</span>
+													<small class="text-muted ms-1"
+														th:text="${book.avgRating}+' (' + ${book.reviews.size()} + ' recensioni)'">
+													</small>
+												</div>
+												<p class="mb-1 text-muted small">
+													<strong>
+														<b th:text="${book.year}"></b>
+													</strong> <i th:text="${book.pages}+' pagine'"></i>
+												</p>
+												<p class="mb-0 text-muted small d-none d-md-block">
+												</p>
+											</div>
+											<div class="col-md-4 text-end">
+												<div class="btn-group">
+													<button class="btn btn-secondary btn-lg" type="button">
+														<div th:if="${userBook}">
+															<p th:text="${userBook.status.label}">Reading Status</p>
+														</div>
+														<div th:unless="${userBook}">Opzioni lettura</div>
+													</button>
+													<button type="button"
+														class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split"
+														data-bs-toggle="dropdown" aria-expanded="false">
+														<span class="visually-hidden">Toggle Dropdown</span>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a class="dropdown-item"
+																th:href="@{/readBook/{id}(id=${book.id})}">Letto</a>
+														</li>
+														<li><a class="dropdown-item"
+																th:href="@{/currentlyReadingBook/{id}(id=${book.id})}">Sto
+																leggendo</a>
+														</li>
+														<li><a class="dropdown-item"
+																th:href="@{/wantToReadBook/{id}(id=${book.id})}">Voglio
+																leggere</a>
+														</li>
+													</ul>
+												</div>
+												<br>
+												<button class="btn btn-outline-secondary btn-sm">
+													<i class="fas fa-star me-1"></i>Valuta
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</li>
+				</ul>
+			</div>
+			<nav aria-label="Paginazione risultati" class="mt-4">
+				<ul class="pagination justify-content-center">
+					<li class="page-item disabled">
+						<span class="page-link">Precedente</span>
+					</li>
+					<li class="page-item active">
+						<span class="page-link">1</span>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">2</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">3</a>
+					</li>
+					<li class="page-item">
+						<span class="page-link">...</span>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">12</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">Successivo</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
 		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

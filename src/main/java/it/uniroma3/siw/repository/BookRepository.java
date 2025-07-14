@@ -16,6 +16,22 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 			    FROM Book b JOIN b.authors a
 			    WHERE b.title = :title AND a IN :authors
 			""")
-	boolean existsByTitleAndAnyAuthor(@Param("title") String title, @Param("authors") List<Author> authors);
+	boolean existsByTitleAndAnyAuthors(@Param("title") String title, @Param("authors") List<Author> authors);
+
+	@Query("""
+			    SELECT AVG(r.stars)
+			    FROM Review r
+			    WHERE r.book = :book
+			""")
+	Double findAverageRatingForBook(@Param("book") Book book);
+
+	@Query("""
+			    SELECT b.id, AVG(r.stars)
+			    FROM Book b
+			    JOIN b.reviews r
+			    WHERE b IN :books
+			    GROUP BY b.id
+			""")
+	List<Object[]> findAverageRatingsForBooks(@Param("books") List<Book> books);
 
 }

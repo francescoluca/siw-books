@@ -70,6 +70,7 @@
 				</ul>
 			</div>
 			<h3>Recensioni</h3>
+			<h2 th:text="'Valutazione degli utenti: '+ ${book.avgRating}+'/5'"></h2>
 			<div th:if="${userReview}">
 				<h5>La tua recensione</h5>
 				<p>
