@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -83,20 +84,6 @@ public class BookController {
 		book.setAvgRating(avg);
 		model.addAttribute("book", book);
 		return "book.html";
-	}
-
-	@GetMapping("/books")
-	public String getBooks(Model model) {
-		Iterable<Book> books = this.bookService.findAll();
-		for (Book book : books) {
-			Double avg = bookService.findAverageRatingForBook(book);
-			if (avg == null) {
-				avg = 0.0;
-			}
-			book.setAvgRating(avg);
-		}
-		model.addAttribute("books", books);
-		return "books.html";
 	}
 
 	@GetMapping("/admin/formNewBook")
@@ -217,9 +204,21 @@ public class BookController {
 		return "books.html";
 	}
 
-	@GetMapping("/books/{field}")
-	public String getBooksWithSorting(@PathVariable String field, Model model) {
-		model.addAttribute("books", this.bookService.findBooksWithSorting(field));
+	@GetMapping("/books")
+	public String listBooks(@RequestParam(value = "sortField", defaultValue = "title") String sortField,
+			@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir, Model model) {
+
+		Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+		Iterable<Book> books = bookService.findAll(Sort.by(direction, sortField));
+		for (Book book : books) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+
+		model.addAttribute("books", books);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		return "books.html";
 	}
 

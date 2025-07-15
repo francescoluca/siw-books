@@ -183,26 +183,36 @@
 										</h5>
 									</div>
 									<div class="col-md-6">
-										<form class="d-flex justify-content-end">
-											<input type="hidden" name="search_query" value="">
-											<input type="hidden" id="sort_order" name="sort_order" value="">
+										<form th:action="@{/books}" method="get" class="d-flex justify-content-end">
 											<div class="input-group" style="width: 250px;">
 												<label class="input-group-text" for="sort_select">
 													<i class="fas fa-sort me-1"></i>Ordina per
 												</label>
-												<select name="sort_select" id="sort_select" class="form-select"
-													onchange="document.getElementById('sort_order').value=this.value; this.form.submit();"
+												<select id="sort_select" name="sortField" class="form-select"
+													th:value="${sortField}" onchange="this.form.submit()"
 													aria-label="Ordina i risultati">
-													<!-- <option value="score">Rilevanza</option> -->
-													<option value="author_az">Autore (A-Z)</option>
-													<option value="author_za" selected="selected">Autore (Z-A)</option>
-													<option value="title_az">Titolo (A-Z)</option>
-													<option value="title_za">Titolo (Z-A)</option>
-													<option value="year_za">Anno decrescente</option>
-													<option value="year_az">Anno ascendente</option>
+
+													<option value="title" th:selected="${sortField=='title'}">
+														Titolo
+													</option>
+													<option value="year" th:selected="${sortField=='year'}">
+														Anno
+													</option>
+
+													<option value="pages" th:selected="${sortField=='pages'}">
+														Numero pagine
+													</option>
 												</select>
+												<input type="hidden" name="sortDir" th:value="${sortDir}" />
 											</div>
+											<button type="button" class="btn btn-outline-secondary ms-2" th:onclick="'window.location.href=\'' 
+										            + @{/books(sortField=${sortField}, sortDir=${reverseSortDir})} 
+										            + '\';'">
+												<i class="bi"
+													th:classappend="${sortDir=='asc'} ? ' bi-caret-up-fill' : ' bi-caret-down-fill'"></i>
+											</button>
 										</form>
+
 									</div>
 								</div>
 							</div>

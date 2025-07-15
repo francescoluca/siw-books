@@ -58,4 +58,8 @@ public class BookService {
 	public Iterable<Book> findBooksWithSorting(String field) {
 		return this.bookRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 	}
+
+	public Iterable<Book> findAll(Sort sort) {
+		return this.bookRepository.findAll(sort);
+	}
 }
