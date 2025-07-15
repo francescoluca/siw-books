@@ -22,23 +22,210 @@
 			href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet">
 		<link rel="stylesheet" href="/css/style.css" />
+		<style>
+			:root {
+				--primary-color: #8B4513;
+				--secondary-color: #D2691E;
+				--accent-color: #F4A460;
+				--text-dark: #2C1810;
+				--text-light: #6B4E3D;
+				--bg-light: #FFF8F0;
+				--border-color: #E8D5C4;
+			}
 
+			body {
+				font-family: 'Inter', sans-serif;
+				color: var(--text-dark);
+			}
+
+			.header-section {
+				background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+				color: white;
+				padding: 2rem 0;
+				margin-bottom: 2rem;
+			}
+
+			.search-item {
+				background: white;
+				border-radius: 12px;
+				margin-bottom: 1rem;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+				cursor: pointer;
+			}
+
+			.search-item:hover {
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+				transform: translateY(-2px);
+			}
+
+			.book-cover {
+				width: 80px;
+				height: 120px;
+				object-fit: cover;
+				border-radius: 8px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+			}
+
+			.rating-stars {
+				color: #FFD700;
+			}
+
+			.btn-primary {
+				background-color: var(--primary-color);
+				border-color: var(--primary-color);
+			}
+
+			.btn-primary:hover {
+				background-color: var(--secondary-color);
+				border-color: var(--secondary-color);
+			}
+
+			.btn-secondary {
+				background-color: var(--accent-color);
+				border-color: var(--accent-color);
+				color: var(--text-dark);
+			}
+
+			.btn-secondary:hover {
+				background-color: var(--secondary-color);
+				border-color: var(--secondary-color);
+				color: white;
+			}
+
+			.dropdown-menu {
+				border: none;
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+				border-radius: 8px;
+			}
+
+			.form-control:focus {
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+			}
+
+			.form-select:focus {
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+			}
+
+			.book-title {
+				font-family: 'Crimson Text', serif;
+				font-weight: 600;
+				color: var(--primary-color);
+				text-decoration: none;
+			}
+
+			.book-title:hover {
+				color: var(--secondary-color);
+				text-decoration: underline;
+			}
+
+			.author-link {
+				color: var(--text-light);
+				text-decoration: none;
+			}
+
+			.author-link:hover {
+				color: var(--primary-color);
+				text-decoration: underline;
+			}
+
+			.no-books-message {
+				text-align: center;
+				padding: 3rem;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			}
+		</style>
 
 	<body>
-
-		<div th:replace="~{fragments/header :: body}"></div>
+		<header th:replace="~{fragments/header :: header}"></header>
 		<div class="list-group">
 			<div class="container">
-				<h1>Libri</h1>
-				<div th:if="${books==null || books.isEmpty()}">Non ci sono libri nel sistema</div>
+				<h1 class="mb-4">Catalogo Libri</h1>
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card shadow-sm">
+							<div class="card-body">
+								<form class="row g-3 align-items-center" method="get" th:action="@{/books/search}">
+									<div class="col-md-10">
+										<div class="input-group">
+											<span class="input-group-text">
+												<i class="bi bi-search"></i>
+											</span>
+											<input type="text" name="keyword" class="form-control form-control-lg"
+												placeholder="Cerca per titolo o codice ISBN" th:value="${query}" />
+										</div>
+									</div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-primary btn-lg w-100">
+											<i class="bi bi-search me-1"></i>Cerca
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card shadow-sm">
+							<div class="card-body py-3">
+								<div class="row align-items-center">
+									<div class="col-md-6">
+										<h5 class="mb-0">
+											<i class="fas fa-list me-2 text-muted"></i>
+											<span class="fw-normal"><b
+													th:text="${books.size}+' volumi in elenco'"></b></span>
+										</h5>
+									</div>
+									<div class="col-md-6">
+										<form class="d-flex justify-content-end">
+											<input type="hidden" name="search_query" value="">
+											<input type="hidden" id="sort_order" name="sort_order" value="">
+											<div class="input-group" style="width: 250px;">
+												<label class="input-group-text" for="sort_select">
+													<i class="fas fa-sort me-1"></i>Ordina per
+												</label>
+												<select name="sort_select" id="sort_select" class="form-select"
+													onchange="document.getElementById('sort_order').value=this.value; this.form.submit();"
+													aria-label="Ordina i risultati">
+													<!-- <option value="score">Rilevanza</option> -->
+													<option value="author_az">Autore (A-Z)</option>
+													<option value="author_za" selected="selected">Autore (Z-A)</option>
+													<option value="title_az">Titolo (A-Z)</option>
+													<option value="title_za">Titolo (Z-A)</option>
+													<option value="year_za">Anno decrescente</option>
+													<option value="year_az">Anno ascendente</option>
+												</select>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${books==null || books.isEmpty()}" class="row">
+					<div class="col-12">
+						<div class="no-books-message">
+							<i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+							<h3 class="text-muted">Non ci sono libri nel sistema</h3>
+							<p class="text-muted">Prova a cercare con termini diversi o consulta il catalogo completo
+							</p>
+						</div>
+					</div>
+				</div>
 				<ul class="list-unstyled">
 					<li th:each="book : ${books}">
 						<div class="list-group">
-							<div class="list-group-item search-item border-0 border-bottom py-3"
-								onclick="window.location.href='book-detail.html'">
+							<div class="list-group-item search-item border-0 border-bottom py-3">
 								<div class="row align-items-center">
-									<div class="ratio"
-										style="--bs-aspect-ratio: 150%; max-width: 200px; background-color: #f8f9fa;">
+									<div class="ratio" style="--bs-aspect-ratio: 150%; max-width: 200px;">
 										<div th:if="${book.coverImage}"><img
 												th:src="@{'/book/' + ${book.id} + '/cover'}"
 												class="w-100 h-100 object-fit-contain" alt="Cover libro" />
@@ -58,8 +245,8 @@
 													<small class="text-muted">Di </small>
 													<span th:each="author, iterStat : ${book.authors}">
 														<a th:href="@{'/author/' + ${author.id}}"
-															th:text="${author.name} + ' ' + ${author.surname}">Nome
-															Autore</a>
+															th:text="${author.name} + ' ' + ${author.surname}">
+														</a>
 														<span th:if="${!iterStat.last}">, </span>
 													</span>
 												</p>
@@ -87,7 +274,8 @@
 												<div class="btn-group">
 													<button class="btn btn-secondary btn-lg" type="button">
 														<div th:if="${userBook}">
-															<p th:text="${userBook.status.label}">Reading Status</p>
+															<p th:text="${userBook.status.label}">Reading Status
+															</p>
 														</div>
 														<div th:unless="${userBook}">Opzioni lettura</div>
 													</button>
@@ -119,6 +307,7 @@
 									</div>
 								</div>
 							</div>
+						</div>
 					</li>
 				</ul>
 			</div>

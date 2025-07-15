@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,5 +49,13 @@ public class BookService {
 
 	public Double findAverageRatingForBook(Book book) {
 		return this.bookRepository.findAverageRatingForBook(book);
+	}
+
+	public Iterable<Book> searchBooksByKeyword(String keyword) {
+		return this.bookRepository.searchBooksByKeyword(keyword);
+	}
+
+	public Iterable<Book> findBooksWithSorting(String field) {
+		return this.bookRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 	}
 }

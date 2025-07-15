@@ -1,162 +1,221 @@
 /* css/styles.css */
 
 :root {
-    --primary-color: #8B4513;
-    --secondary-color: #D2691E;
-    --accent-color: #228B22;
-    --warm-bg: #FFF8DC;
-    --card-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
-    --hover-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
+	--primary-color: #8B4513;
+	--secondary-color: #D2691E;
+	--accent-color: #228B22;
+	--warm-bg: #FFF8DC;
+	--card-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+	--hover-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #FEFEFE;
-    color: #2C1810;
+	font-family: 'Inter', sans-serif;
+	background-color: #FEFEFE;
+	color: #2C1810;
 }
 
 .font-serif {
-    font-family: 'Crimson Text', serif;
+	font-family: 'Crimson Text', serif;
 }
 
 .bg-primary-custom {
-    background-color: var(--primary-color) !important;
+	background-color: var(--primary-color) !important;
 }
 
 .bg-warm {
-    background-color: var(--warm-bg);
+	background-color: var(--warm-bg);
 }
 
 .text-primary-custom {
-    color: var(--primary-color) !important;
+	color: var(--primary-color) !important;
 }
 
 .text-accent {
-    color: var(--accent-color) !important;
+	color: var(--accent-color) !important;
 }
 
 .btn-primary-custom {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
+	background-color: var(--primary-color);
+	border-color: var(--primary-color);
+	color: white;
 }
 
 .btn-primary-custom:hover {
-    background-color: #A0522D;
-    border-color: #A0522D;
-    color: white;
+	background-color: #A0522D;
+	border-color: #A0522D;
+	color: white;
 }
 
 .btn-accent {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: white;
+	background-color: var(--accent-color);
+	border-color: var(--accent-color);
+	color: white;
 }
 
 .btn-accent:hover {
-    background-color: #32CD32;
-    border-color: #32CD32;
-    color: white;
+	background-color: #32CD32;
+	border-color: #32CD32;
+	color: white;
 }
 
 .card-custom {
-    border: none;
-    box-shadow: var(--card-shadow);
-    transition: all 0.3s ease;
-    border-radius: 12px;
+	border: none;
+	box-shadow: var(--card-shadow);
+	transition: all 0.3s ease;
+	border-radius: 12px;
 }
 
 .card-custom:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--hover-shadow);
+	transform: translateY(-5px);
+	box-shadow: var(--hover-shadow);
 }
 
 .hero-section {
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(160, 82, 45, 0.9)),
-                url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-    background-size: cover;
-    background-position: center;
-    min-height: 70vh;
-    color: white;
-    display: flex;
-    align-items: center;
+	background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(160, 82, 45, 0.9)),
+		url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+	background-size: cover;
+	background-position: center;
+	min-height: 70vh;
+	color: white;
+	display: flex;
+	align-items: center;
 }
 
 .star-rating {
-    color: #FFD700;
+	color: #FFD700;
 }
 
 .book-cover {
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	height: 200px;
+	object-fit: cover;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .author-avatar,
 .user-avatar {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 600;
-    margin: 0 auto 1rem;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-weight: 600;
+	margin: 0 auto 1rem;
 }
 
 .author-avatar {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    font-size: 1.5rem;
+	width: 80px;
+	height: 80px;
+	background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+	font-size: 1.5rem;
 }
 
 .user-avatar {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--accent-color), #32CD32);
-    font-size: 1rem;
+	width: 50px;
+	height: 50px;
+	background: linear-gradient(135deg, var(--accent-color), #32CD32);
+	font-size: 1rem;
 }
 
 .navbar-brand {
-    font-family: 'Crimson Text', serif;
-    font-weight: 600;
-    font-size: 1.8rem;
+	font-family: 'Crimson Text', serif;
+	font-weight: 600;
+	font-size: 1.8rem;
 }
 
 .logo-img {
-    max-height: 50px;
-    width: auto;
+	max-height: 50px;
+	width: auto;
 }
 
 .section-title {
-    font-family: 'Crimson Text', serif;
-    font-weight: 600;
-    color: var(--primary-color);
+	font-family: 'Crimson Text', serif;
+	font-weight: 600;
+	color: var(--primary-color);
 }
 
 .stats-card {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.3s ease;
+	background: white;
+	border-radius: 15px;
+	padding: 2rem;
+	text-align: center;
+	box-shadow: var(--card-shadow);
+	transition: transform 0.3s ease;
 }
 
 .stats-card:hover {
-    transform: translateY(-3px);
+	transform: translateY(-3px);
 }
 
 .stats-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+	font-size: 3rem;
+	margin-bottom: 1rem;
 }
 
 .review-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: var(--card-shadow);
-    margin-bottom: 1rem;
+	background: white;
+	border-radius: 12px;
+	padding: 1.5rem;
+	box-shadow: var(--card-shadow);
+	margin-bottom: 1rem;
+}
+
+.book-cover {
+	width: 60px;
+	height: 90px;
+	object-fit: cover;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-item {
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.search-item:hover {
+	background-color: #f8f9fa;
+	transform: translateY(-1px);
+}
+
+.book-title {
+	color: #8B4513;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.book-title:hover {
+	color: #A0522D;
+	text-decoration: underline;
+}
+
+.author-link {
+	color: #6c757d;
+	text-decoration: none;
+}
+
+.author-link:hover {
+	color: #495057;
+	text-decoration: underline;
+}
+
+.rating-stars {
+	color: #ffc107;
+}
+
+.search-header {
+	background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+	color: white;
+}
+
+.btn-want-to-read {
+	background-color: #28a745;
+	border-color: #28a745;
+	color: white;
+}
+
+.btn-want-to-read:hover {
+	background-color: #218838;
+	border-color: #1e7e34;
 }

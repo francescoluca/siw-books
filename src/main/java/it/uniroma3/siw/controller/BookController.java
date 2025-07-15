@@ -210,4 +210,17 @@ public class BookController {
 		}
 		return authorsToAdd;
 	}
+
+	@GetMapping("/books/search")
+	public String searchBooks(@RequestParam String keyword, Model model) {
+		model.addAttribute("books", this.bookService.searchBooksByKeyword(keyword));
+		return "books.html";
+	}
+
+	@GetMapping("/books/{field}")
+	public String getBooksWithSorting(@PathVariable String field, Model model) {
+		model.addAttribute("books", this.bookService.findBooksWithSorting(field));
+		return "books.html";
+	}
+
 }
