@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -200,24 +203,34 @@ public class BookController {
 		return authorsToAdd;
 	}
 
-	@GetMapping("/books/search")
-	public String searchBooks(@RequestParam String keyword, Model model) {
-		model.addAttribute("books", this.bookService.searchBooksByKeyword(keyword));
-		return "books.html";
-	}
-
 	@GetMapping("/books")
-	public String listBooks(@RequestParam(value = "sortField", defaultValue = "title") String sortField,
+	public String listBooks(@RequestParam(required = false) String keyword,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			@RequestParam(value = "sortField", defaultValue = "title") String sortField,
 			@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir, Model model) {
 
 		Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-		Iterable<Book> books = bookService.findAll(Sort.by(direction, sortField));
-		for (Book book : books) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+		Page<Book> bookPage;
+
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			bookPage = bookService.searchBooksByKeyword(keyword, pageable);
+			model.addAttribute("keyword", keyword);
+		} else {
+			bookPage = bookService.findAll(pageable);
+		}
+		for (Book book : bookPage.getContent()) {
 			Double avg = bookService.findAverageRatingForBook(book);
 			book.setAvgRating(avg == null ? 0.0 : avg);
 		}
 
-		model.addAttribute("books", books);
+		model.addAttribute("booksCount", bookPage.getTotalElements());
+		model.addAttribute("books", bookPage.getContent());
+		model.addAttribute("bookPage", bookPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", bookPage.getTotalPages() == 0 ? 1 : bookPage.getTotalPages());
+		model.addAttribute("pageSize", size);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");

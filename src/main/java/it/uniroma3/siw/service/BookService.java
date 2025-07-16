@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,8 +53,8 @@ public class BookService {
 		return this.bookRepository.findAverageRatingForBook(book);
 	}
 
-	public Iterable<Book> searchBooksByKeyword(String keyword) {
-		return this.bookRepository.searchBooksByKeyword(keyword);
+	public Page<Book> searchBooksByKeyword(String keyword, Pageable pageable) {
+		return this.bookRepository.searchBooksByKeyword(keyword, pageable);
 	}
 
 	public Iterable<Book> findBooksWithSorting(String field) {
@@ -61,5 +63,13 @@ public class BookService {
 
 	public Iterable<Book> findAll(Sort sort) {
 		return this.bookRepository.findAll(sort);
+	}
+
+	public Page<Book> findAll(Pageable pageable) {
+		return bookRepository.findAll(pageable);
+	}
+
+	public long count() {
+		return bookRepository.count();
 	}
 }

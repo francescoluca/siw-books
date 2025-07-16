@@ -149,14 +149,14 @@
 					<div class="col-12">
 						<div class="card shadow-sm">
 							<div class="card-body">
-								<form class="row g-3 align-items-center" method="get" th:action="@{/books/search}">
+								<form class="row g-3 align-items-center" method="get" th:action="@{/books}">
 									<div class="col-md-10">
 										<div class="input-group">
 											<span class="input-group-text">
 												<i class="bi bi-search"></i>
 											</span>
 											<input type="text" name="keyword" class="form-control form-control-lg"
-												placeholder="Cerca per titolo o codice ISBN" th:value="${query}" />
+												placeholder="Cerca per titolo o codice ISBN" th:value="${keyword}" />
 										</div>
 									</div>
 									<div class="col-md-2">
@@ -179,7 +179,7 @@
 										<h5 class="mb-0">
 											<i class="fas fa-list me-2 text-muted"></i>
 											<span class="fw-normal"><b
-													th:text="${books.size}+' volumi in elenco'"></b></span>
+													th:text="${booksCount}+' volumi in elenco'"></b></span>
 										</h5>
 									</div>
 									<div class="col-md-6">
@@ -203,10 +203,11 @@
 														Numero pagine
 													</option>
 												</select>
+												<input type="hidden" name="keyword" th:value="${keyword}" />
 												<input type="hidden" name="sortDir" th:value="${sortDir}" />
 											</div>
 											<button type="button" class="btn btn-outline-secondary ms-2" th:onclick="'window.location.href=\'' 
-										            + @{/books(sortField=${sortField}, sortDir=${reverseSortDir})} 
+										            + @{/books(keyword=${keyword},sortField=${sortField}, sortDir=${reverseSortDir})} 
 										            + '\';'">
 												<i class="bi"
 													th:classappend="${sortDir=='asc'} ? ' bi-caret-up-fill' : ' bi-caret-down-fill'"></i>
@@ -231,7 +232,7 @@
 					</div>
 				</div>
 				<ul class="list-unstyled">
-					<li th:each="book : ${books}">
+					<li th:each="book : ${bookPage.content}">
 						<div class="list-group">
 							<div class="list-group-item search-item border-0 border-bottom py-3">
 								<div class="row align-items-center">
@@ -323,27 +324,33 @@
 			</div>
 			<nav aria-label="Paginazione risultati" class="mt-4">
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled">
-						<span class="page-link">Precedente</span>
+					<div th:if="${currentPage > 0}">
+						<li class="page-item">
+							<a class="page-link"
+								th:href="@{/books(keyword=${keyword}, page=${currentPage - 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Precedente</a>
+						</li>
+					</div>
+					<div th:if="${currentPage==0}">
+						<li class="page-item disabled">
+							<span class="page-link">Precedente</span>
+						</li>
+					</div>
+					<li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+						<a class="page-link"
+							th:href="@{/books(keyword=${keyword},page=${i}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}"
+							th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
 					</li>
-					<li class="page-item active">
-						<span class="page-link">1</span>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">2</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">3</a>
-					</li>
-					<li class="page-item">
-						<span class="page-link">...</span>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">12</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">Successivo</a>
-					</li>
+					<div th:if="${currentPage < totalPages - 1}">
+						<li class="page-item">
+							<a class="page-link"
+								th:href="@{/books(keyword=${keyword},page=${currentPage + 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Successivo</a>
+						</li>
+					</div>
+					<div th:if="${currentPage == totalPages -1}">
+						<li class="page-item disabled">
+							<span class="page-link">Successivo</span>
+						</li>
+					</div>
 				</ul>
 			</nav>
 		</div>

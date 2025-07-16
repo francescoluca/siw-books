@@ -2,6 +2,8 @@ package it.uniroma3.siw.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,6 +38,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 	@Query(value = "SELECT * FROM book b " + "WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) "
 			+ "OR b.isbn_code LIKE CONCAT('%', :keyword, '%')", nativeQuery = true)
-	Iterable<Book> searchBooksByKeyword(@Param("keyword") String keyword);
+	Page<Book> searchBooksByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
 }
