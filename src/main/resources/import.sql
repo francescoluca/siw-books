@@ -49,11 +49,7 @@ INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) V
 INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1044, 'Mikhail',      'Bulgakov',      '1891-05-15', '1940-03-10', 'Russia');
 INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1045, 'Anna',         'Frank',         '1929-06-12', '1945-03-31', 'Paesi Bassi');
 INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1046, 'Kenneth',      'Graham',        '1859-08-15', '1932-06-13', 'Regno Unito');
-INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1047, 'Luigi',        'Pirandello',    '1867-06-28', '1936-12-10', 'Italia');
-INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1048, 'Elsa',         'Morante',       '1912-08-18', '1985-11-25', 'Italia');
-INSERT INTO author(id, name, surname, day_of_birth, day_of_death, nationality) VALUES (1049, 'Antoine',      'Saint-Exupéry','1900-06-29', '1944-07-31', 'Francia');
 
--- Libri
 -- Libri
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1000, 'Il grande Gatsby',                     '9788804610021', 1925, NULL, 230);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1001, 'Il giovane Holden',                   '9788845258391', 1951, NULL, 224);
@@ -62,7 +58,7 @@ INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1003, '
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1004, 'Il Signore degli Anelli',             '9788804665206', 1954, NULL, 1248);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1005, 'Delitto e castigo',                   '9788804673093', 1866, NULL, 688);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1006, 'Guerra e pace',                       '9788807771674', 1869, NULL, 1392);
-INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1007, '1984',                                '9788804680205', 1949, NULL, 336);
+INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1007, '1984',                                '9788807903816', 1949, NULL, 336);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1008, 'Il nome della rosa',                  '9788804700264', 1980, NULL, 552);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1009, 'Cent''anni di solitudine',            '9788807806302', 1967, NULL, 448);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1010, 'La metamorfosi',                      '9788804580690', 1915, NULL, 96);
@@ -105,3 +101,56 @@ INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1046, '
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1047, 'Il diario di Anna Frank',             '9788807887425', 1947, NULL, 320);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1048, 'Il vento tra i salici',               '9788806224397', 1908, NULL, 256);
 INSERT INTO book(id, title, isbn_code, year, cover_image, pages) VALUES (1049, 'Uno, nessuno e centomila',            '9788806223840', 1926, NULL, 256);
+
+
+INSERT INTO book_authors (books_id, authors_id) VALUES (1000, 1000);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1001, 1001);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1002, 1002);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1003, 1003);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1004, 1004);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1005, 1005);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1006, 1006);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1007, 1007);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1008, 1008);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1009, 1009);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1010, 1010);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1011, 1011);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1012, 1012);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1013, 1013);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1014, 1014);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1015, 1015);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1016, 1016);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1017, 1017);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1018, 1018);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1019, 1019);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1020, 1020);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1021, 1021);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1022, 1022);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1023, 1023);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1024, 1024);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1025, 1025);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1026, 1026);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1027, 1027);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1028, 1028);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1029, 1029);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1030, 1030);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1031, 1031);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1032, 1032);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1033, 1033);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1034, 1034);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1035, 1035);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1036, 1036);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1037, 1037);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1038, 1038);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1039, 1039);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1040, 1040);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1041, 1041);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1042, 1042);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1043, 1042);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1044, 1042);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1045, 1043);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1046, 1044);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1047, 1045);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1048, 1046);
+INSERT INTO book_authors (books_id, authors_id) VALUES (1049, 1023);
+ 

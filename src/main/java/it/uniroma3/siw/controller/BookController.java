@@ -135,10 +135,12 @@ public class BookController {
 			@RequestParam("cover") MultipartFile cover) throws IOException {
 		Book book = bookService.findById(id);
 		book.setAuthors(updatedBook.getAuthors());
-		book.setCoverImage(updatedBook.getCoverImage());
 		book.setIsbnCode(updatedBook.getIsbnCode());
 		book.setTitle(updatedBook.getTitle());
 		book.setYear(updatedBook.getYear());
+		if (updatedBook.getCoverImage() != null) {
+			book.setCoverImage(updatedBook.getCoverImage());
+		}
 		this.bookService.save(book, cover);
 		return "redirect:/book/" + book.getId();
 	}
