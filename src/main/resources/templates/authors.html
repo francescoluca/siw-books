@@ -28,19 +28,134 @@
 	<body>
 		<div th:replace="fragments/header :: body"></div>
 
-		<h1>Libri</h1>
-		<div th:if="${authors==null || authors.isEmpty()}">Non ci sono autori nel sistema</div>
-		<ul>
-			<li th:each="author : ${authors}">
-				<a th:href="@{'/author' + '/' + ${author.id}}" th:text="${author.name} + ' ' + ${author.surname}">Up!
-					(2000)</a>
-			</li>
-		</ul>
-		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
+		<div class="list-group">
+			<div class="container">
+				<h1 class="mb-4">Esplora gli autori</h1>
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card shadow-sm">
+							<div class="card-body">
+								<form class="row g-3 align-items-center" method="get" th:action="@{/authors}">
+									<div class="col-md-10">
+										<div class="input-group">
+											<span class="input-group-text">
+												<i class="bi bi-search"></i>
+											</span>
+											<input type="text" name="keyword" class="form-control form-control-lg"
+												placeholder="Cerca per nome o cognome dell'autore"
+												th:value="${keyword}" />
+										</div>
+									</div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-primary btn-lg w-100">
+											<i class="bi bi-search me-1"></i>Cerca
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card shadow-sm">
+							<div class="card-body py-3">
+								<div class="row align-items-center">
+									<div class="col-md-6">
+										<h5 class="mb-0">
+											<i class="fas fa-list me-2 text-muted"></i>
+											<span class="fw-normal"><b
+													th:text="${authorsCount}+' autori in elenco'"></b></span>
+										</h5>
+									</div>
+									<div class="col-md-6">
+										<form th:action="@{/authors}" method="get" class="d-flex justify-content-end">
+											<div class="input-group" style="width: 250px;">
+												<label class="input-group-text" for="sort_select">
+													<i class="fas fa-sort me-1"></i>Ordina per
+												</label>
+												<select id="sort_select" name="sortField" class="form-select"
+													th:value="${sortField}" onchange="this.form.submit()"
+													aria-label="Ordina i risultati">
 
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-			crossorigin="anonymous"></script>
+													<option value="name" th:selected="${sortField=='name'}">
+														Nome
+													</option>
+													<option value="surname" th:selected="${sortField=='surname'}">
+														Cognome
+													</option>
+												</select>
+												<input type="hidden" name="keyword" th:value="${keyword}" />
+												<input type="hidden" name="sortDir" th:value="${sortDir}" />
+											</div>
+											<button type="button" class="btn btn-outline-secondary ms-2" th:onclick="'window.location.href=\'' 
+												            + @{/authors(keyword=${keyword},sortField=${sortField}, sortDir=${reverseSortDir})} 
+												            + '\';'">
+												<i class="bi"
+													th:classappend="${sortDir=='asc'} ? ' bi-caret-up-fill' : ' bi-caret-down-fill'"></i>
+											</button>
+										</form>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div th:if="${authors==null || authors.isEmpty()}" class="row">
+					<div class="col-12">
+						<div class="no-books-message">
+							<i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+							<h3 class="text-muted">Non ci sono autori nel sistema</h3>
+							<p class="text-muted">Prova a cercare con termini diversi o consulta il catalogo completo
+							</p>
+						</div>
+					</div>
+				</div>
+				<ul>
+					<li th:each="author : ${authorPage.content}">
+						<a th:href="@{'/author' + '/' + ${author.id}}"
+							th:text="${author.name} + ' ' + ${author.surname}"></a>
+					</li>
+				</ul>
+				<nav aria-label="Paginazione risultati" class="mt-4">
+					<ul class="pagination justify-content-center">
+						<div th:if="${currentPage > 0}">
+							<li class="page-item">
+								<a class="page-link"
+									th:href="@{/authors(keyword=${keyword}, page=${currentPage - 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Precedente</a>
+							</li>
+						</div>
+						<div th:if="${currentPage==0}">
+							<li class="page-item disabled">
+								<span class="page-link">Precedente</span>
+							</li>
+						</div>
+						<li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+							<a class="page-link"
+								th:href="@{/authors(keyword=${keyword},page=${i}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}"
+								th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
+						</li>
+						<div th:if="${currentPage < totalPages - 1}">
+							<li class="page-item">
+								<a class="page-link"
+									th:href="@{/authors(keyword=${keyword},page=${currentPage + 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Successivo</a>
+							</li>
+						</div>
+						<div th:if="${currentPage == totalPages -1}">
+							<li class="page-item disabled">
+								<span class="page-link">Successivo</span>
+							</li>
+						</div>
+					</ul>
+				</nav>
+
+
+				<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
+
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+					integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+					crossorigin="anonymous"></script>
 	</body>
 
 </html>

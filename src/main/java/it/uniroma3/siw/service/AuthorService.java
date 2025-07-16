@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,10 @@ public class AuthorService {
 
 	public Iterable<Author> findAll() {
 		return authorRepository.findAll();
+	}
+
+	public Page<Author> findAll(Pageable pageable) {
+		return authorRepository.findAll(pageable);
 	}
 
 	public Author findById(Long id) {
@@ -47,6 +53,10 @@ public class AuthorService {
 
 	public byte[] getPhoto(Long id) {
 		return this.authorRepository.findById(id).map(Author::getPhoto).orElse(null);
+	}
+
+	public Page<Author> searchAuthorsByKeyword(String keyword, Pageable pageable) {
+		return this.authorRepository.searchAuthorsByKeyword(keyword, pageable);
 	}
 
 }

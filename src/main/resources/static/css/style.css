@@ -3,10 +3,14 @@
 :root {
 	--primary-color: #8B4513;
 	--secondary-color: #D2691E;
-	--accent-color: #228B22;
+	--accent-color: #F4A460;
 	--warm-bg: #FFF8DC;
 	--card-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
 	--hover-shadow: 0 8px 25px rgba(139, 69, 19, 0.15);
+	--text-dark: #2C1810;
+	--text-light: #6B4E3D;
+	--bg-light: #FFF8F0;
+	--border-color: #E8D5C4;
 }
 
 body {
@@ -218,4 +222,110 @@ body {
 .btn-want-to-read:hover {
 	background-color: #218838;
 	border-color: #1e7e34;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	color: var(--text-dark);
+}
+
+.header-section {
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+	color: white;
+	padding: 2rem 0;
+	margin-bottom: 2rem;
+}
+
+.search-item {
+	background: white;
+	border-radius: 12px;
+	margin-bottom: 1rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.search-item:hover {
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+	transform: translateY(-2px);
+}
+
+.book-cover {
+	width: 80px;
+	height: 120px;
+	object-fit: cover;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rating-stars {
+	color: #FFD700;
+}
+
+.btn-primary {
+	background-color: var(--primary-color);
+	border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+	background-color: var(--secondary-color);
+	border-color: var(--secondary-color);
+}
+
+.btn-secondary {
+	background-color: var(--accent-color);
+	border-color: var(--accent-color);
+	color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+	background-color: var(--secondary-color);
+	border-color: var(--secondary-color);
+	color: white;
+}
+
+.dropdown-menu {
+	border: none;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
+}
+
+.form-control:focus {
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.form-select:focus {
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+}
+
+.book-title {
+	font-family: 'Crimson Text', serif;
+	font-weight: 600;
+	color: var(--primary-color);
+	text-decoration: none;
+}
+
+.book-title:hover {
+	color: var(--secondary-color);
+	text-decoration: underline;
+}
+
+.author-link {
+	color: var(--text-light);
+	text-decoration: none;
+}
+
+.author-link:hover {
+	color: var(--primary-color);
+	text-decoration: underline;
+}
+
+.no-books-message {
+	text-align: center;
+	padding: 3rem;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

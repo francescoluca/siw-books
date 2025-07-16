@@ -3,6 +3,10 @@ package it.uniroma3.siw.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,8 +36,32 @@ public class AuthorController {
 	private AuthorValidator authorValidator;
 
 	@GetMapping("/authors")
-	public String getAuthors(Model model) {
-		model.addAttribute("authors", authorService.findAll());
+	public String listAuthors(@RequestParam(required = false) String keyword,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			@RequestParam(value = "sortField", defaultValue = "surname") String sortField,
+			@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir, Model model) {
+
+		Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+		Page<Author> authorPage;
+
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			authorPage = authorService.searchAuthorsByKeyword(keyword, pageable);
+			model.addAttribute("keyword", keyword);
+		} else {
+			authorPage = authorService.findAll(pageable);
+		}
+
+		model.addAttribute("authorsCount", authorPage.getTotalElements());
+		model.addAttribute("authors", authorPage.getContent());
+		model.addAttribute("authorPage", authorPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", authorPage.getTotalPages() == 0 ? 1 : authorPage.getTotalPages());
+		model.addAttribute("pageSize", size);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		return "authors.html";
 	}
 
