@@ -28,6 +28,7 @@ public class Review {
 	@ManyToOne
 	private User writer;
 
+	@NotBlank
 	private LocalDateTime createdAt;
 
 	public String getTitle() {

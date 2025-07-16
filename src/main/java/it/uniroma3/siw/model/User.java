@@ -1,5 +1,6 @@
 package it.uniroma3.siw.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -23,6 +24,8 @@ public class User {
 	private String surname;
 	@NotBlank
 	private String email;
+	@NotBlank
+	private LocalDate registrationDate;
 	@OneToOne
 	private Credentials credentials;
 	@OneToMany(mappedBy = "writer")
@@ -84,5 +87,13 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 }

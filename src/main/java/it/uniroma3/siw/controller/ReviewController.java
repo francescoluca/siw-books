@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +37,8 @@ public class ReviewController {
 	public String formNewReview(@PathVariable Long bookId, Model model) {
 		Book book = bookService.findById(bookId);
 		model.addAttribute("book", book);
+		Review review = new Review();
+		review.setCreatedAt(LocalDateTime.now());
 		model.addAttribute("review", new Review());
 		return "formNewReview.html";
 	}
