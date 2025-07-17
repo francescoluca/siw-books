@@ -37,8 +37,6 @@ public class ReviewController {
 	public String formNewReview(@PathVariable Long bookId, Model model) {
 		Book book = bookService.findById(bookId);
 		model.addAttribute("book", book);
-		Review review = new Review();
-		review.setCreatedAt(LocalDateTime.now());
 		model.addAttribute("review", new Review());
 		return "formNewReview.html";
 	}
@@ -56,6 +54,7 @@ public class ReviewController {
 	public String updateReview(@PathVariable Long bookId, @PathVariable Long reviewId,
 			@ModelAttribute("review") Review updatedReview) {
 		Review review = reviewService.finById(reviewId);
+		review.setCreatedAt(LocalDateTime.now());
 		review.setTitle(updatedReview.getTitle());
 		review.setText(updatedReview.getText());
 		review.setStars(updatedReview.getStars());
@@ -69,6 +68,7 @@ public class ReviewController {
 		Book book = bookService.findById(bookId);
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
+		review.setCreatedAt(LocalDateTime.now());
 		review.setBook(book);
 		review.setWriter(currentUser);
 		reviewService.save(review);

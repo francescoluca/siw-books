@@ -32,12 +32,12 @@
 		<form th:action="@{'/saveReview/' + ${book.id}}" method="post" th:object="${review}">
 			<div class="form-floating mb-3">
 				<input type="text" required th:field="*{title}" class="form-control"
-					placeholder="Titolo della recensione" />
+					placeholder="Titolo della recensione" maxlength="100"/>
 				<label for="title">Titolo</label>
 			</div>
 			<div class="form-floating mb-3">
 				<textarea required th:field="*{text}" class="form-control" placeholder="Scrivi la tua recensione"
-					style="height: 100px"></textarea>
+					style="height: 100px" maxlength="2000"></textarea>
 				<label for="text">Testo della recensione</label>
 			</div>
 			<div class="mb-3">

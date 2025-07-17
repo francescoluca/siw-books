@@ -24,7 +24,7 @@ public class User {
 	private String surname;
 	@NotBlank
 	private String email;
-	@NotBlank
+
 	private LocalDate registrationDate;
 	@OneToOne
 	private Credentials credentials;

@@ -2,6 +2,7 @@ package it.uniroma3.siw.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Review {
@@ -17,18 +19,21 @@ public class Review {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@NotBlank
+	@Column(columnDefinition = "TEXT")
+	@Size(max = 100)
 	private String title;
 	@Min(1)
 	@Max(5)
 	private Integer stars;
 	@NotBlank
+	@Column(columnDefinition = "TEXT")
+	@Size(max = 2000)
 	private String text;
 	@ManyToOne
 	private Book book;
 	@ManyToOne
 	private User writer;
 
-	@NotBlank
 	private LocalDateTime createdAt;
 
 	public String getTitle() {
