@@ -27,17 +27,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 			""")
 	Double findAverageRatingForBook(@Param("book") Book book);
 
-	@Query("""
-			    SELECT b.id, AVG(r.stars)
-			    FROM Book b
-			    JOIN b.reviews r
-			    WHERE b IN :books
-			    GROUP BY b.id
-			""")
-	List<Object[]> findAverageRatingsForBooks(@Param("books") List<Book> books);
-
 	@Query(value = "SELECT * FROM book b " + "WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) "
 			+ "OR b.isbn_code LIKE CONCAT('%', :keyword, '%')", nativeQuery = true)
 	Page<Book> searchBooksByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+	@Query("""
+			    SELECT b
+			    FROM Book b
+			    JOIN b.authors a
+			    WHERE a = :author
+			""")
+	Iterable<Book> findBooksByAuthor(@Param("author") Author author);
 
 }

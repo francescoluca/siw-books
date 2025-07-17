@@ -24,7 +24,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import it.uniroma3.siw.controller.validator.AuthorValidator;
 import it.uniroma3.siw.model.Author;
+import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.service.AuthorService;
+import it.uniroma3.siw.service.BookService;
 
 @Controller
 public class AuthorController {
@@ -34,6 +36,9 @@ public class AuthorController {
 
 	@Autowired
 	private AuthorValidator authorValidator;
+
+	@Autowired
+	private BookService bookService;
 
 	@GetMapping("/authors")
 	public String listAuthors(@RequestParam(required = false) String keyword,
@@ -67,7 +72,14 @@ public class AuthorController {
 
 	@GetMapping("/author/{id}")
 	public String getAuthor(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("author", authorService.findById(id));
+		Author author = authorService.findById(id);
+		Iterable<Book> books = bookService.findBooksByAuthor(author);
+		for (Book book : books) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+		model.addAttribute("books", bookService.findBooksByAuthor(author));
+		model.addAttribute("author", author);
 		return "author.html";
 	}
 

@@ -33,6 +33,14 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 
+	public Iterable<Book> findAll(Sort sort) {
+		return this.bookRepository.findAll(sort);
+	}
+
+	public Page<Book> findAll(Pageable pageable) {
+		return bookRepository.findAll(pageable);
+	}
+
 	@Transactional
 	public void save(Book book, MultipartFile file) throws IOException {
 		if (!file.isEmpty()) {
@@ -61,12 +69,8 @@ public class BookService {
 		return this.bookRepository.findAll(Sort.by(Sort.Direction.ASC, field));
 	}
 
-	public Iterable<Book> findAll(Sort sort) {
-		return this.bookRepository.findAll(sort);
-	}
-
-	public Page<Book> findAll(Pageable pageable) {
-		return bookRepository.findAll(pageable);
+	public Iterable<Book> findBooksByAuthor(Author author) {
+		return this.bookRepository.findBooksByAuthor(author);
 	}
 
 	public long count() {
