@@ -149,14 +149,17 @@
 
 												<div class="mb-2">
 													<span class="rating-stars">
-														<i class="fas fa-star"></i>
-														<i class="fas fa-star"></i>
-														<i class="fas fa-star"></i>
-														<i class="fas fa-star"></i>
-														<i class="fas fa-star-half-alt"></i>
+														<th:block th:each="i : ${#numbers.sequence(1,5)}">
+															<i th:if="${book.avgRating >= i}" class="fas fa-star"></i>
+															<i th:if="${book.avgRating >= i-0.5 and book.avgRating < i}"
+																class="fas fa-star-half-alt"></i>
+															<i th:if="${book.avgRating < i-0.5}"
+																class="far fa-star"></i>
+														</th:block>
 													</span>
-													<small class="text-muted ms-1"
-														th:text="${book.avgRating}+' (' + ${book.reviews.size()} + ' recensioni)'">
+													<small class="text-muted ms-2">
+														<strong th:text="${book.avgRating}"></strong>
+														(<span th:text="${book.reviews.size()}"></span> recensioni)
 													</small>
 												</div>
 												<p class="mb-1 text-muted small">
@@ -216,8 +219,7 @@
 														<li>
 															<form th:action="@{/removeUserBook/{id}(id=${book.id})}"
 																method="post" class="d-inline">
-																<input type="hidden" name="status"
-																	value="REMOVE" />
+																<input type="hidden" name="status" value="REMOVE" />
 																<button type="submit" class="dropdown-item">
 																	<i class="bi bi-x"></i> Rimuovi dai miei libri
 																</button>
@@ -227,13 +229,14 @@
 													</ul>
 												</div>
 												<div class="btn-group" th:unless="${userBook}">
-													<form th:action="@{/wantToReadBook/{id}(id=${book.id})}" method="post" class="d-inline">
-													  <input type="hidden" name="status" value="WANT_TO_READ" />
-													  <button
-													    class="btn btn-outline-secondary btn-lg text-muted fw-bold"
-													    type="submit">
-													    Voglio leggere
-													  </button>
+													<form th:action="@{/wantToReadBook/{id}(id=${book.id})}"
+														method="post" class="d-inline">
+														<input type="hidden" name="status" value="WANT_TO_READ" />
+														<button
+															class="btn btn-outline-secondary btn-lg text-muted fw-bold"
+															type="submit">
+															Voglio leggere
+														</button>
 													</form>
 
 													<button type="button"
