@@ -39,12 +39,16 @@
 						</ul>
 
 						<div class="d-flex align-items-center">
-							<div class="input-group me-3" style="width: 300px;">
-								<input type="text" class="form-control" placeholder="Cerca libri, autori...">
-								<button class="btn btn-outline-secondary" type="button">
-									<i class="bi bi-search"></i>
-								</button>
-							</div>
+							<form class="d-flex align-items-center" method="get" action="/books">
+								<div class="input-group me-3" style="width: 300px;">
+									<input type="text" class="form-control" name="keyword"
+										placeholder="Cerca libri nel catalogo">
+									<button class="btn btn-outline-secondary" type="submit">
+										<i class="bi bi-search"></i>
+									</button>
+								</div>
+							</form>
+
 							<div th:if="${userDetails}">
 								<div class="dropdown text-end"> <a href="/#"
 										class="d-block link-body-emphasis text-decoration-none dropdown-toggle"

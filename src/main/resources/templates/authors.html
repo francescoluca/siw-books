@@ -27,10 +27,11 @@
 
 	<body>
 		<div th:replace="fragments/header :: body"></div>
+		<div class="my-5"></div>
 
 		<div class="list-group">
 			<div class="container">
-				<h1 class="mb-4">Esplora gli autori</h1>
+				<h1 class="mb-4">Esplora gli Autori</h1>
 				<div class="row mb-4">
 					<div class="col-12">
 						<div class="card shadow-sm">
@@ -136,12 +137,11 @@
 												<p class="mb-1">
 													<i class="bi bi-book me-1"></i>
 													<b class="text-muted" th:text="${author.books.size} + ' Libri'">
-													</b>
-													<p th:each="book, iterStat : ${author.books}">
-														<a th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">
+													</b> <span th:each="book, iterStat : ${author.books}">
+														<a th:href="@{'/book/' + ${book.id}}"
+															th:text="${book.title +  (!iterStat.last ? ',' : '')}">
 														</a>
-														<span th:if="${!iterStat.last}">, </span>
-													</p>
+													</span>
 												</p>
 											</div>
 										</div>
