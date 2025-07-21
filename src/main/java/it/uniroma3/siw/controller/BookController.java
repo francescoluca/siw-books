@@ -2,7 +2,9 @@ package it.uniroma3.siw.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +89,50 @@ public class BookController {
 		book.setAvgRating(avg);
 		model.addAttribute("book", book);
 		return "book.html";
+	}
+
+	@GetMapping("/books")
+	public String listBooks(@RequestParam(required = false) String keyword,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			@RequestParam(value = "sortField", defaultValue = "title") String sortField,
+			@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir, Model model,
+			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
+
+		Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+		Page<Book> bookPage;
+
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			bookPage = bookService.searchBooksByKeyword(keyword, pageable);
+			model.addAttribute("keyword", keyword);
+		} else {
+			bookPage = bookService.findAll(pageable);
+		}
+		for (Book book : bookPage.getContent()) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+		if (userDetails != null) {
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			User currentUser = userService.getUser(credentials.getId());
+			Iterable<UserBook> userBooks = userBookService.findAllByUser(currentUser);
+			Map<Long, UserBook> userBooksMap = new HashMap<>();
+			for (UserBook ub : userBooks) {
+				userBooksMap.put(ub.getBook().getId(), ub);
+			}
+			model.addAttribute("userBooksMap", userBooksMap);
+		}
+		model.addAttribute("booksCount", bookPage.getTotalElements());
+		model.addAttribute("books", bookPage.getContent());
+		model.addAttribute("bookPage", bookPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", bookPage.getTotalPages() == 0 ? 1 : bookPage.getTotalPages());
+		model.addAttribute("pageSize", size);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		return "books.html";
 	}
 
 	@GetMapping("/admin/formNewBook")
@@ -201,40 +247,6 @@ public class BookController {
 			authorsToAdd.add(a);
 		}
 		return authorsToAdd;
-	}
-
-	@GetMapping("/books")
-	public String listBooks(@RequestParam(required = false) String keyword,
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size,
-			@RequestParam(value = "sortField", defaultValue = "title") String sortField,
-			@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir, Model model) {
-
-		Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-		Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
-		Page<Book> bookPage;
-
-		if (keyword != null && !keyword.trim().isEmpty()) {
-			bookPage = bookService.searchBooksByKeyword(keyword, pageable);
-			model.addAttribute("keyword", keyword);
-		} else {
-			bookPage = bookService.findAll(pageable);
-		}
-		for (Book book : bookPage.getContent()) {
-			Double avg = bookService.findAverageRatingForBook(book);
-			book.setAvgRating(avg == null ? 0.0 : avg);
-		}
-
-		model.addAttribute("booksCount", bookPage.getTotalElements());
-		model.addAttribute("books", bookPage.getContent());
-		model.addAttribute("bookPage", bookPage);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", bookPage.getTotalPages() == 0 ? 1 : bookPage.getTotalPages());
-		model.addAttribute("pageSize", size);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-		return "books.html";
 	}
 
 }

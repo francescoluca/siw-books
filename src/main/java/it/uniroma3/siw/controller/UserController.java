@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Credentials;
@@ -44,10 +46,11 @@ public class UserController {
 		return "/profile";
 	}
 
-	@GetMapping("/readBook/{bookId}")
+	@PostMapping("/readBook/{bookId}")
 	public String readBook(
 			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
-			@PathVariable("bookId") Long bookId, Model model) {
+			@PathVariable("bookId") Long bookId, Model model,
+			@RequestHeader(value = "referer", required = false) String referer) {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
@@ -65,13 +68,14 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "redirect:/book/" + bookId;
+		return "redirect:" + (referer != null ? referer : "/books");
 	}
 
-	@GetMapping("/wantToReadBook/{bookId}")
+	@PostMapping("/wantToReadBook/{bookId}")
 	public String wantToReadBook(
 			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
-			@PathVariable("bookId") Long bookId, Model model) {
+			@PathVariable("bookId") Long bookId, Model model,
+			@RequestHeader(value = "referer", required = false) String referer) {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
@@ -89,13 +93,14 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "redirect:/book/" + bookId;
+		return "redirect:" + (referer != null ? referer : "/books");
 	}
 
-	@GetMapping("/currentlyReadingBook/{bookId}")
+	@PostMapping("/currentlyReadingBook/{bookId}")
 	public String currentlyReadingBook(
 			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
-			@PathVariable("bookId") Long bookId, Model model) {
+			@PathVariable("bookId") Long bookId, Model model,
+			@RequestHeader(value = "referer", required = false) String referer) {
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		User currentUser = userService.getUser(credentials.getId());
 		Book book = bookService.findById(bookId);
@@ -113,6 +118,25 @@ public class UserController {
 		userBookService.save(userBook);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("book", book);
-		return "redirect:/book/" + bookId;
+		return "redirect:" + (referer != null ? referer : "/books");
+	}
+
+	@PostMapping("/removeUserBook/{bookId}")
+	public String removeUserBook(
+			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
+			@PathVariable("bookId") Long bookId, Model model,
+			@RequestHeader(value = "referer", required = false) String referer) {
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		User currentUser = userService.getUser(credentials.getId());
+		Book book = bookService.findById(bookId);
+		Optional<UserBook> optionalUserBook = userBookService.findByUserAndBookId(currentUser, bookId);
+		UserBook userBook;
+		if (optionalUserBook.isPresent()) {
+			userBook = optionalUserBook.get();
+			userBookService.delete(userBook);
+		}
+		model.addAttribute("user", currentUser);
+		model.addAttribute("book", book);
+		return "redirect:" + (referer != null ? referer : "/books");
 	}
 }

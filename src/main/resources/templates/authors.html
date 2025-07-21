@@ -112,10 +112,43 @@
 						</div>
 					</div>
 				</div>
-				<ul>
+				<ul class="list-unstyled">
 					<li th:each="author : ${authorPage.content}">
-						<a th:href="@{'/author' + '/' + ${author.id}}"
-							th:text="${author.name} + ' ' + ${author.surname}"></a>
+						<div class="list-group">
+							<div class="list-group-item search-item border-0 border-bottom py-3">
+								<div class="row align-items-center">
+									<div class="ratio" style="--bs-aspect-ratio: 150%; max-width: 200px;">
+										<div th:if="${author.photo}"><img
+												th:src="@{'/author/' + ${author.id} + '/photo'}"
+												class="w-100 h-100 object-fit-contain" alt="Cover libro" />
+										</div>
+										<div th:unless="${author.photo}"><img src="/images/noAuthorPhoto.png"
+												class="w-100 h-100 object-fit-contain" alt="Foto autore" />
+										</div>
+									</div>
+									<div class="col">
+										<div class="row">
+											<div class="col-md-8">
+												<h5 class="mb-1">
+													<a th:href="@{'/author' + '/' + ${author.id}}"
+														th:text="${author.name} + ' ' + ${author.surname}"></a>
+												</h5>
+												<p class="mb-1">
+													<i class="bi bi-book me-1"></i>
+													<b class="text-muted" th:text="${author.books.size} + ' Libri'">
+													</b>
+													<p th:each="book, iterStat : ${author.books}">
+														<a th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">
+														</a>
+														<span th:if="${!iterStat.last}">, </span>
+													</p>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</li>
 				</ul>
 				<nav aria-label="Paginazione risultati" class="mt-4">

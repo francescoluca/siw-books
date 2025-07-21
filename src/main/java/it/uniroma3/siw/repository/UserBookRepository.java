@@ -21,4 +21,7 @@ public interface UserBookRepository extends CrudRepository<UserBook, Long> {
 	@Query(value = "SELECT * FROM user_book WHERE user_id = ?1 AND status = 'CURRENTLY_READING'", nativeQuery = true)
 	public Iterable<UserBook> findAllCurrentlyReadingBooksByUser(Long userId);
 
+	@Query(value = "SELECT * FROM user_book WHERE user_id = ?1", nativeQuery = true)
+	Iterable<UserBook> findAllByUser(Long userId);
+
 }

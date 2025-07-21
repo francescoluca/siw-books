@@ -23,8 +23,16 @@ public class UserBookService {
 		userBookRepository.save(userBook);
 	}
 
+	public void delete(UserBook userBook) {
+		this.userBookRepository.delete(userBook);
+	}
+
 	public Iterable<UserBook> findAll() {
 		return userBookRepository.findAll();
+	}
+
+	public Iterable<UserBook> findAllByUser(User currentUser) {
+		return userBookRepository.findAllByUser(currentUser.getId());
 	}
 
 	public Iterable<UserBook> findAllReadBooksByUser(User currentUser) {

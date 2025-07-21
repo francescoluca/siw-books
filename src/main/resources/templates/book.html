@@ -252,20 +252,47 @@
 				<div class="btn-group">
 					<button class="btn btn-secondary btn-lg" type="button">
 						<div th:if="${userBook}">
-							<p th:text="${userBook.status.label}">Reading Status</p>
+							<span th:if="${userBook}" class="d-flex align-items-center">
+								<span th:text="${userBook.status.label}">Status</span>
+							</span>
 						</div>
-						<div th:unless="${userBook}">Opzioni lettura</div>
+						<div th:unless="${userBook}">
+							Voglio leggere
+						</div>
 					</button>
 					<button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split"
 						data-bs-toggle="dropdown" aria-expanded="false">
 						<span class="visually-hidden">Toggle Dropdown</span>
 					</button>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" th:href="@{/readBook/{id}(id=${book.id})}">Letto</a></li>
-						<li><a class="dropdown-item" th:href="@{/currentlyReadingBook/{id}(id=${book.id})}">Sto
-								leggendo</a>
+						<li>
+							<form th:action="@{/readBook/{id}(id=${book.id})}" method="post" class="d-inline">
+								<input type="hidden" name="status" value="READ" />
+								<button type="submit" class="dropdown-item">
+									<i class="bi bi-check2"></i> Letto </button>
+
+							</form>
 						</li>
-						<li><a class="dropdown-item" th:href="@{/wantToReadBook/{id}(id=${book.id})}">Voglio leggere</a>
+						<li>
+							<form th:action="@{/currentlyReadingBook/{id}(id=${book.id})}" method="post"
+								class="d-inline">
+								<input type="hidden" name="status" value="CURRENTLY_READING" />
+								<button type="submit" class="dropdown-item">
+									<i class="bi bi-book-half"></i> Sto leggendo
+								</button>
+
+							</form>
+
+						</li>
+						<li>
+							<form th:action="@{/wantToReadBook/{id}(id=${book.id})}" method="post" class="d-inline">
+								<input type="hidden" name="status" value="WANT_TO_READ" />
+								<button type="submit" class="dropdown-item">
+									<i class="bi bi-bookmark-check-fill me-1"></i>
+									Voglio leggere
+								</button>
+
+							</form>
 						</li>
 					</ul>
 				</div>
