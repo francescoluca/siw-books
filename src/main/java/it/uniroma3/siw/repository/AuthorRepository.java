@@ -1,6 +1,7 @@
 package it.uniroma3.siw.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,5 +22,8 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 	@Query(value = "SELECT * FROM author a " + "WHERE LOWER(a.name) LIKE LOWER(CONCAT('%', :keyword, '%')) "
 			+ "OR a.surname LIKE CONCAT('%', :keyword, '%')", nativeQuery = true)
 	Page<Author> searchAuthorsByKeyword(@Param(value = "keyword") String keyword, Pageable pageable);
+
+	@Query("SELECT a FROM Author a LEFT JOIN a.books b GROUP BY a.id ORDER BY COUNT(b) DESC")
+	List<Author> findTop3ByBooksCount(Pageable pageable);
 
 }

@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
@@ -35,6 +37,9 @@ public class AuthenticationController {
 	@Autowired
 	private BookService bookService;
 
+	@Autowired
+	private AuthorService authorService;
+
 	@GetMapping(value = "/register")
 	public String showRegisterForm(Model model) {
 		model.addAttribute("user", new User());
@@ -51,11 +56,13 @@ public class AuthenticationController {
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		List<Book> popularBooks = this.bookService.findTop3ByAverageRating();
+		List<Author> popularAuthors = this.authorService.findTop3ByBooksCount();
 		for (Book book : popularBooks) {
 			Double avg = bookService.findAverageRatingForBook(book);
 			book.setAvgRating(avg == null ? 0.0 : avg);
 		}
 		model.addAttribute("popularBooks", popularBooks);
+		model.addAttribute("popularAuthors", popularAuthors);
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return "index.html";
 		} else {

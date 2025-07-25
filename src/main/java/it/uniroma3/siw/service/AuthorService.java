@@ -2,9 +2,11 @@ package it.uniroma3.siw.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,4 +61,8 @@ public class AuthorService {
 		return this.authorRepository.searchAuthorsByKeyword(keyword, pageable);
 	}
 
+	public List<Author> findTop3ByBooksCount() {
+		Pageable topThree = PageRequest.of(0, 3);
+		return authorRepository.findTop3ByBooksCount(topThree);
+	}
 }
