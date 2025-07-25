@@ -27,21 +27,187 @@
 
 	<body>
 		<div th:replace="fragments/header :: body"></div>
-		<h1>Operazioni per amministratore</h1>
-		<div>
-			<a href="/admin/formNewBook">Aggiungi libro</a>
-		</div>
-		<div>
-			<a href="/admin/formNewAuthor">Aggiungi autore</a>
-		</div>
-		<div>
-			<a href="/admin/manageBooks">Gestisci libri</a>
-		</div>
-		<div>
-			<a href="/admin/manageAuthors">Gestisci autori</a>
-		</div>
-		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
+		<section class="hero-section">
+			<div class="container">
+				<div class="row justify-content-center text-center">
+					<div class="col-lg-8">
+						<h1 class="display-3 fw-bold mb-4 font-serif">
+							Operazioni per amministratore<br>
+						</h1>
+						<p>
+						<div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+							<a class="btn btn-light btn-lg px-4" href="/admin/manageBooks">
+								<i class="bi bi-book me-2"></i>Gestisci i libri
+							</a>
+							<a class="btn btn-outline-light btn-lg px-4" href="/admin/formNewBook">
+								<i class="bi bi-pen me-2"></i>Aggiungi un libro
+							</a>
+						</div>
+						</p>
+						<p>
+						<div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+							<a class="btn btn-light btn-lg px-4" href="/admin/manageAuthors">
+								<i class="bi bi-person me-2"></i>Gestisci gli autori
+							</a>
+							<a class="btn btn-outline-light btn-lg px-4" href="/admin/formNewAuthor">
+								<i class="bi bi-pen me-2"></i>Aggiungi un autore
+							</a>
+						</div>
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-5">
+			<div class="container">
+				<div class="d-flex justify-content-between align-items-center mb-5">
+					<div>
+						<h2 class="section-title display-6 mb-2">Libri in evidenza</h2>
+						<p class="text-muted">I libri più amati dalla community</p>
+					</div>
+					<a class="btn btn-outline-primary" href="/books">
+						Vedi tutti <i class="bi bi-arrow-right ms-1"></i>
+					</a>
+				</div>
 
+				<div class="row g-4">
+					<div th:each="book : ${popularBooks}" class="col-lg-4">
+						<div class="card card-custom h-100">
+							<div class="row g-0 h-100">
+								<div th:if="${book.coverImage}" class="col-4">
+									<img th:src="@{'/book/' + ${book.id} + '/cover'}" class="book-cover w-100 h-100"
+										alt="Cover libro" />
+								</div>
+								<div th:unless="${book.coverImage}" class="col-4"><img src="/images/noBookCover.png"
+										class="book-cover w-100 h-100" alt="Cover libro" />
+								</div>
+								<div class="col-8">
+									<div class="card-body h-100 d-flex flex-column">
+										<h5 class="card-title fw-bold" th:text="${book.title}"></h5>
+										<p class="mb-1">
+											<small class="text-muted">Di </small>
+											<span th:each="author, iterStat : ${book.authors}">
+												<a th:href="@{'/author/' + ${author.id}}"
+													th:text="${author.name + ' ' + author.surname + (!iterStat.last ? ',' : '')}">
+												</a>
+											</span>
+										</p>
+										<div class="mb-4">
+											<span class="rating-stars">
+												<th:block th:each="i : ${#numbers.sequence(1,5)}">
+													<i th:if="${book.avgRating >= i}"
+														class="bi bi-star-fill text-warning"></i>
+													<i th:if="${book.avgRating >= i-0.5 and book.avgRating < i}"
+														class="bi bi-star-half text-warning"></i>
+													<i th:if="${book.avgRating < i-0.5}"
+														class="bi bi-star text-warning"></i>
+												</th:block>
+
+											</span>
+											<small class="text-muted ms-2">
+												<strong th:text="${book.avgRating}"></strong>
+												<p>
+													(<span th:text="${book.reviews.size()}"></span> recensioni)</p>
+											</small>
+										</div>
+										<p class="card-text small text-muted flex-grow-1">
+
+										</p>
+										<div class="d-flex gap-2 mt-auto">
+											<a th:href="@{'/book/'+${book.id}}"
+												class="btn btn-primary-custom btn-sm flex-grow-1">Dettagli</a>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-5 bg-warm">
+			<div class="container">
+				<div class="d-flex justify-content-between align-items-center mb-5">
+					<div>
+						<h2 class="section-title display-6 mb-2">Autori popolari</h2>
+						<p class="text-muted">Gli autori con più libri nel catalogo</p>
+					</div>
+					<a href="/authors" class="btn btn-outline-primary">
+						Tutti gli autori <i class="bi bi-arrow-right ms-1"></i>
+					</a>
+				</div>
+
+				<div class="row g-4">
+					<div th:each="author : ${popularAuthors}" class="col-md-4">
+						<div class="card card-custom text-center">
+							<div class="card-body">
+								<div class="author-avatar">
+									<i class="bi bi-person"></i>
+								</div>
+								<h5 class="fw-bold mb-3" th:text="${author.name + ' ' + author.surname}"></h5>
+								<div class="d-flex justify-content-center gap-4 mb-3">
+									<small class="text-muted">
+										<i class="bi bi-book me-1"></i><span
+											th:text="${author.books.size+' libri'}"></span>
+									</small>
+
+								</div>
+								<p class="text-muted small mb-4">
+
+								</p>
+								<div class="d-flex gap-2 mt-auto">
+									<a th:href="@{'/author/'+${author.id}}"
+										class="btn btn-primary-custom btn-sm flex-grow-1">Dettagli</a>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-5">
+			<div class="container">
+				<div class="d-flex justify-content-between align-items-center mb-5">
+					<div>
+						<h2 class="section-title display-6 mb-2">Recensioni recenti</h2>
+						<p class="text-muted">Le ultime opinioni dalla community</p>
+					</div>
+				</div>
+				<div class="row g-4">
+					<div th:each="review : ${newestReviews}" class="col-lg-6">
+						<div class="review-card">
+							<div class="d-flex align-items-start gap-3">
+								<div class="flex-grow-1">
+									<div class="d-flex justify-content-between align-items-center mb-2">
+										<h6 class="fw-bold mb-0"
+											th:text="${review.writer.name + ' '+review.writer.surname}"></h6>
+										<small class="text-muted"
+											th:text="${#temporals.format(review.createdAt, 'd MMMM yyyy', T(java.util.Locale).ITALIAN)}">></small>
+									</div>
+									<p class="text-accent small fw-medium mb-2" th:text="${review.book.title}">
+									</p>
+									<div class="star-rating mb-3">
+										<th:block th:each="i : ${#numbers.sequence(1, 5)}">
+											<i th:if="${review.stars >= i}" class="bi bi-star-fill text-warning"></i>
+											<i th:if="${review.stars >= i - 0.5 and review.stars < i}"
+												class="bi bi-star-half text-warning"></i>
+											<i th:if="${review.stars < i - 0.5}" class="bi bi-star text-warning"></i>
+										</th:block>
+									</div>
+									<b class="text mb-5" th:text="${review.title}">
+									</b>
+									<p class="text-muted small mb-3" th:text="${review.text}">
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
 			crossorigin="anonymous"></script>

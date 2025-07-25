@@ -93,9 +93,18 @@ public class AuthenticationController {
 
 	@GetMapping(value = "/success")
 	public String defaultAfterLogin(Model model) {
-
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		List<Book> popularBooks = this.bookService.findTop3ByAverageRating();
+		List<Author> popularAuthors = this.authorService.findTop3ByBooksCount();
+		List<Review> newestReviews = this.reviewService.findTop2ByCreatedAt();
+		for (Book book : popularBooks) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+		model.addAttribute("newestReviews", newestReviews);
+		model.addAttribute("popularBooks", popularBooks);
+		model.addAttribute("popularAuthors", popularAuthors);
 		if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
 			return "admin/indexAdmin.html";
 		}

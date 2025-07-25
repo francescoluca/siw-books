@@ -27,64 +27,68 @@
 	<div th:replace="~{fragments/header :: body}"></div>
 
 	<body>
-		<h2>Modifica dati autore: <span th:text="${author.name}+' '+${author.surname}"></span></h2>
-		<form th:action="@{'/admin/updateAuthor/' + ${author.id}}" method="post" th:object="${author}"
-			enctype="multipart/form-data">
-			<div class="form-floating mb-3">
-				<input type="text" required th:field="*{name}" class="form-control" placeholder="Nome autore" />
-				<label for="name">Nome</label>
-			</div>
-			<div class="form-floating mb-3">
-				<textarea required th:field="*{surname}" class="form-control" placeholder="Cognome autore"></textarea>
-				<label for="surname">Cognome</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="date" required th:field="*{dayOfBirth}" class="form-control"
-					placeholder="Data di nascita" />
-				<label for="dayOfBirth">Data di nascita</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="date" th:field="*{dayOfDeath}" class="form-control" placeholder="Data di morte" />
-				<label for="dayOfDeath">Data di morte</label>
-			</div>
-			<div class="mb-3">
-				<div class="position-relative d-inline-block"
-					style="--bs-aspect-ratio: 150%; max-width:200px; background-color:#f8f9fa;">
-					<div th:if="${author.photo}"><img th:src="@{'/author/' + ${author.id} + '/photo'}"
-							class="w-100 h-100 object-fit-contain" alt="Foto autore" />
-						<img th:unless="${author.photo}" src="/images/noAuthorPhoto.png"
-							class="w-100 h-100 object-fit-contain" alt="Foto assente" />
-						<button type="button" id="btnChangeCover" class="btn btn-light btn-sm position-absolute"
-							style="top: 5px; right: 5px; opacity:0.8;">
-							<i class="bi bi-pencil-fill"></i>
-						</button>
-						<input type="file" id="photoInput" name="photoFile" accept="image/*" style="display: none;" />
+		<section class="py-5">
+			<div class="container">
+				<h2>Modifica dati autore: <span th:text="${author.name}+' '+${author.surname}"></span></h2>
+				<form th:action="@{'/admin/updateAuthor/' + ${author.id}}" method="post" th:object="${author}"
+					enctype="multipart/form-data">
+					<div class="form-floating mb-3">
+						<input type="text" required th:field="*{name}" class="form-control" placeholder="Nome autore" />
+						<label for="name">Nome</label>
 					</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Salva</button>
-		</form>
-		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
+					<div class="form-floating mb-3">
+						<textarea required th:field="*{surname}" class="form-control"
+							placeholder="Cognome autore"></textarea>
+						<label for="surname">Cognome</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="date" required th:field="*{dayOfBirth}" class="form-control"
+							placeholder="Data di nascita" />
+						<label for="dayOfBirth">Data di nascita</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="date" th:field="*{dayOfDeath}" class="form-control" placeholder="Data di morte" />
+						<label for="dayOfDeath">Data di morte</label>
+					</div>
+					<div class="mb-3">
+						<div class="position-relative d-inline-block"
+							style="--bs-aspect-ratio: 150%; max-width:200px; background-color:#f8f9fa;">
+							<div th:if="${author.photo}"><img th:src="@{'/author/' + ${author.id} + '/photo'}"
+									class="w-100 h-100 object-fit-contain" alt="Foto autore" />
+								<img th:unless="${author.photo}" src="/images/noAuthorPhoto.png"
+									class="w-100 h-100 object-fit-contain" alt="Foto assente" />
+								<button type="button" id="btnChangeCover" class="btn btn-light btn-sm position-absolute"
+									style="top: 5px; right: 5px; opacity:0.8;">
+									<i class="bi bi-pencil-fill"></i>
+								</button>
+								<input type="file" id="photoInput" name="photoFile" accept="image/*"
+									style="display: none;" />
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">Salva</button>
+				</form>
+				<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
 
 
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-..." crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+					integrity="sha384-..." crossorigin="anonymous"></script>
 
-		<script>
-			document.getElementById('btnChangeCover')
-				.addEventListener('click', () => {
-					document.getElementById('photoInput').click();
-				});
+				<script>
+					document.getElementById('btnChangeCover')
+						.addEventListener('click', () => {
+							document.getElementById('photoInput').click();
+						});
 
-			const input = document.getElementById('photoInput');
-			const img = document.querySelector('.position-relative img');
+					const input = document.getElementById('photoInput');
+					const img = document.querySelector('.position-relative img');
 
-			input.addEventListener('change', () => {
-				if (!input.files || !input.files[0]) return;
-				const reader = new FileReader();
-				reader.onload = e => img.src = e.target.result;
-				reader.readAsDataURL(input.files[0]);
-			});
-		</script>
+					input.addEventListener('change', () => {
+						if (!input.files || !input.files[0]) return;
+						const reader = new FileReader();
+						reader.onload = e => img.src = e.target.result;
+						reader.readAsDataURL(input.files[0]);
+					});
+				</script>
 	</body>
 
 </html>

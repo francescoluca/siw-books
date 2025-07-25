@@ -27,37 +27,40 @@
 
 	<body>
 		<div th:replace="~{fragments/header :: body}"></div>
-		<h1>Aggiungi un autore</h1>
-		<form th:action="@{/admin/author}" method="POST" th:object="${author}" enctype="multipart/form-data">
-			<div class="form-floating mb-3">
-				<input type="text" required th:field="*{name}" class="form-control" placeholder="Nome autore" />
-				<label for="name">Nome</label>
-			</div>
-			<div class="form-floating mb-3">
-				<textarea required th:field="*{surname}" class="form-control" placeholder="Cognome autore"></textarea>
-				<label for="surname">Cognome</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="date" required th:field="*{dayOfBirth}" class="form-control"
-					placeholder="Data di nascita" />
-				<label for="dayOfBirth">Data di nascita</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input type="date" th:field="*{dayOfDeath}" class="form-control" placeholder="Data di morte" />
-				<label for="dayOfDeath">Data di morte</label>
-			</div>
-			<div class="mb-3">
-				<label for="photo" class="form-label">Foto autore:</label>
-				<input type="file" id="photoFile" name="photoFile" accept="image/*" class="form-control" />
-				<div class="text-danger" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></div>
-			</div>
-			<button type="submit" class="btn btn-primary">Salva</button>
-		</form>
-		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
+		<section class="py-5">
+			<div class="container">
+				<h1>Aggiungi un autore</h1>
+				<form th:action="@{/admin/author}" method="POST" th:object="${author}" enctype="multipart/form-data">
+					<div class="form-floating mb-3">
+						<input type="text" required th:field="*{name}" class="form-control" placeholder="Nome autore" />
+						<label for="name">Nome</label>
+					</div>
+					<div class="form-floating mb-3">
+						<textarea required th:field="*{surname}" class="form-control"
+							placeholder="Cognome autore"></textarea>
+						<label for="surname">Cognome</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="date" required th:field="*{dayOfBirth}" class="form-control"
+							placeholder="Data di nascita" />
+						<label for="dayOfBirth">Data di nascita</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="date" th:field="*{dayOfDeath}" class="form-control" placeholder="Data di morte" />
+						<label for="dayOfDeath">Data di morte</label>
+					</div>
+					<div class="mb-3">
+						<label for="photo" class="form-label">Foto autore:</label>
+						<input type="file" id="photoFile" name="photoFile" accept="image/*" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></div>
+					</div>
+					<button type="submit" class="btn btn-primary">Salva</button>
+				</form>
+				<footer th:replace="~{fragments/footer :: siteFooter}"></footer>
 
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-			crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+					integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+					crossorigin="anonymous"></script>
 	</body>
 
 </html>
