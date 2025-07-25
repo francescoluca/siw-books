@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.controller.validator.CredentialsValidator;
+import it.uniroma3.siw.controller.validator.UserValidator;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Credentials;
@@ -44,6 +46,12 @@ public class AuthenticationController {
 
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private UserValidator userValidator;
+
+	@Autowired
+	private CredentialsValidator credentialsValidator;
 
 	@GetMapping(value = "/register")
 	public String showRegisterForm(Model model) {
@@ -98,9 +106,9 @@ public class AuthenticationController {
 	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
 			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
 			Model model) {
+		userValidator.validate(user, userBindingResult);
+		credentialsValidator.validate(credentials, credentialsBindingResult);
 
-		// se user e credential hanno entrambi contenuti validi, memorizza User e the
-		// Credentials nel DB
 		if (!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
 			user.setRegistrationDate(LocalDate.now());
 			userService.saveUser(user);
@@ -109,6 +117,6 @@ public class AuthenticationController {
 			model.addAttribute("user", user);
 			return "registrationSuccessful";
 		}
-		return "registerUser";
+		return "formRegisterUser";
 	}
 }
