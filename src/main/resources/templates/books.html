@@ -293,41 +293,40 @@
 								</div>
 							</div>
 						</div>
+					</li>
+				</ul>
 			</div>
-			</li>
-			</ul>
-		</div>
-		<nav aria-label="Paginazione risultati" class="mt-4">
-			<ul class="pagination justify-content-center">
-				<div th:if="${currentPage > 0}">
-					<li class="page-item">
+			<nav aria-label="Paginazione risultati" class="mt-4">
+				<ul class="pagination justify-content-center">
+					<div th:if="${currentPage > 0}">
+						<li class="page-item">
+							<a class="page-link"
+								th:href="@{/books(keyword=${keyword}, page=${currentPage - 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Precedente</a>
+						</li>
+					</div>
+					<div th:if="${currentPage==0}">
+						<li class="page-item disabled">
+							<span class="page-link">Precedente</span>
+						</li>
+					</div>
+					<li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
 						<a class="page-link"
-							th:href="@{/books(keyword=${keyword}, page=${currentPage - 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Precedente</a>
+							th:href="@{/books(keyword=${keyword},page=${i}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}"
+							th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
 					</li>
-				</div>
-				<div th:if="${currentPage==0}">
-					<li class="page-item disabled">
-						<span class="page-link">Precedente</span>
-					</li>
-				</div>
-				<li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-					<a class="page-link"
-						th:href="@{/books(keyword=${keyword},page=${i}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}"
-						th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''"></a>
-				</li>
-				<div th:if="${currentPage < totalPages - 1}">
-					<li class="page-item">
-						<a class="page-link"
-							th:href="@{/books(keyword=${keyword},page=${currentPage + 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Successivo</a>
-					</li>
-				</div>
-				<div th:if="${currentPage == totalPages -1}">
-					<li class="page-item disabled">
-						<span class="page-link">Successivo</span>
-					</li>
-				</div>
-			</ul>
-		</nav>
+					<div th:if="${currentPage < totalPages - 1}">
+						<li class="page-item">
+							<a class="page-link"
+								th:href="@{/books(keyword=${keyword},page=${currentPage + 1}, size=${pageSize}, sortField=${sortField}, sortDir=${sortDir})}">Successivo</a>
+						</li>
+					</div>
+					<div th:if="${currentPage == totalPages -1}">
+						<li class="page-item disabled">
+							<span class="page-link">Successivo</span>
+						</li>
+					</div>
+				</ul>
+			</nav>
 		</div>
 
 		<footer th:replace="~{fragments/footer :: siteFooter}"></footer>

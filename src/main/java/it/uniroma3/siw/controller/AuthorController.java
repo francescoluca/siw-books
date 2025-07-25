@@ -1,6 +1,8 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,8 +28,14 @@ import org.springframework.web.server.ResponseStatusException;
 import it.uniroma3.siw.controller.validator.AuthorValidator;
 import it.uniroma3.siw.model.Author;
 import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.model.UserBook;
 import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
+import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.UserBookService;
+import it.uniroma3.siw.service.UserService;
 
 @Controller
 public class AuthorController {
@@ -39,6 +48,15 @@ public class AuthorController {
 
 	@Autowired
 	private BookService bookService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CredentialsService credentialsService;
+
+	@Autowired
+	private UserBookService userBookService;
 
 	@GetMapping("/authors")
 	public String listAuthors(@RequestParam(required = false) String keyword,
@@ -71,12 +89,23 @@ public class AuthorController {
 	}
 
 	@GetMapping("/author/{id}")
-	public String getAuthor(@PathVariable("id") Long id, Model model) {
+	public String getAuthor(@PathVariable("id") Long id, Model model,
+			@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
 		Author author = authorService.findById(id);
 		Iterable<Book> books = bookService.findBooksByAuthor(author);
 		for (Book book : books) {
 			Double avg = bookService.findAverageRatingForBook(book);
 			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+		if (userDetails != null) {
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			User currentUser = userService.getUser(credentials.getId());
+			Iterable<UserBook> userBooks = userBookService.findAllByUser(currentUser);
+			Map<Long, UserBook> userBooksMap = new HashMap<>();
+			for (UserBook ub : userBooks) {
+				userBooksMap.put(ub.getBook().getId(), ub);
+			}
+			model.addAttribute("userBooksMap", userBooksMap);
 		}
 		model.addAttribute("books", bookService.findBooksByAuthor(author));
 		model.addAttribute("author", author);
