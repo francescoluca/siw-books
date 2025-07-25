@@ -39,4 +39,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 			""")
 	Iterable<Book> findBooksByAuthor(@Param("author") Author author);
 
+	@Query("SELECT b FROM Book b LEFT JOIN b.reviews r GROUP BY b.id ORDER BY COUNT(r) DESC")
+	List<Book> findTop3ByReviewsCount(Pageable pageable);
+
+	@Query("SELECT b FROM Book b JOIN b.reviews r GROUP BY b.id ORDER BY AVG(r.stars) DESC")
+	List<Book> findTop3ByAverageRating(Pageable pageable);
+
 }

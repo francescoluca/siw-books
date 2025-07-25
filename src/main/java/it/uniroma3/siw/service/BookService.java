@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,6 @@ public class BookService {
 
 	public Iterable<Book> findAll() {
 		return bookRepository.findAll();
-	}
-
-	public Iterable<Book> findAll(Sort sort) {
-		return this.bookRepository.findAll(sort);
 	}
 
 	public Page<Book> findAll(Pageable pageable) {
@@ -76,4 +73,15 @@ public class BookService {
 	public long count() {
 		return bookRepository.count();
 	}
+
+	public List<Book> findTop3ByReviewsCount() {
+		Pageable topThree = PageRequest.of(0, 3);
+		return bookRepository.findTop3ByReviewsCount(topThree);
+	}
+
+	public List<Book> findTop3ByAverageRating() {
+		Pageable topThree = PageRequest.of(0, 3);
+		return bookRepository.findTop3ByAverageRating(topThree);
+	}
+
 }

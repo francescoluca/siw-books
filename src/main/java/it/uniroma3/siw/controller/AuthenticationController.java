@@ -1,6 +1,7 @@
 package it.uniroma3.siw.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.service.BookService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
@@ -28,6 +31,9 @@ public class AuthenticationController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private BookService bookService;
 
 	@GetMapping(value = "/register")
 	public String showRegisterForm(Model model) {
@@ -44,6 +50,12 @@ public class AuthenticationController {
 	@GetMapping(value = "/")
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		List<Book> popularBooks = this.bookService.findTop3ByAverageRating();
+		for (Book book : popularBooks) {
+			Double avg = bookService.findAverageRatingForBook(book);
+			book.setAvgRating(avg == null ? 0.0 : avg);
+		}
+		model.addAttribute("popularBooks", popularBooks);
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return "index.html";
 		} else {
