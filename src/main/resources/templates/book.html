@@ -362,12 +362,9 @@
 						<div class="mb-4">
 							<span class="rating-stars">
 								<th:block th:each="i : ${#numbers.sequence(1,5)}">
-									<!-- piena -->
 									<i th:if="${book.avgRating >= i}" class="bi bi-star-fill text-warning"></i>
-									<!-- mezza -->
 									<i th:if="${book.avgRating >= i-0.5 and book.avgRating < i}"
 										class="bi bi-star-half text-warning"></i>
-									<!-- vuota -->
 									<i th:if="${book.avgRating < i-0.5}" class="bi bi-star text-warning"></i>
 								</th:block>
 

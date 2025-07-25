@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Review;
@@ -39,6 +41,11 @@ public class ReviewService {
 
 	public void delete(Review review) {
 		reviewRepository.delete(review);
+	}
+
+	public List<Review> findTop2ByCreatedAt() {
+		Pageable topTwo = PageRequest.of(0, 2);
+		return reviewRepository.findTop2ByCreatedAt(topTwo);
 	}
 
 }
